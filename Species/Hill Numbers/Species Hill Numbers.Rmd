@@ -1,22 +1,18 @@
 ---
-title: "spONLY V3 Hill Rare 03_17_2025"
-author: "Alicia June"
-date: "2025-03-17"
+title: "Species Hill Numbers"
+author: "Alicia M. June"
 output: html_document
 ---
-
 # Introduction
 
-This document is V3 of conducting rarefaction using Hill Numbers. The data is being used is species ONLY data (03-17-2025). V3 uses 5 samples for each member. It excludes the following samples: 
-
-* AP SM 07MPEA2 (Sunken Meadow)
-* VMNH RM 1 (Rushmere)
-* VMNH MH1 (Moore House)
+This document contains code for calculating the observed Hill numbers (Fig X, X, X) and the diversity curves (Fig X, X, X). The data is being used is species ONLY data. 5 samples were used for each member.
 
 Goals:
 
-* Create Hill Rarefaction curves for the order q=0 and q=1
-* Extract csvs for rarefaction data, not including rarefaction
+* Calculate Hill numbers qD for q=0 and q=1
+* Create diversity curves for qD for q=0 and q=1
+* Extract csvs for diversity curve data, not including extrapolated data
+
 
 ```{r Packages}
 library(tidyverse)
@@ -30,7 +26,7 @@ library(vegan)
 Data is imported as a csv. Samples are in columns, species in rows. There is also a row for sample ID and the member each sample is from. If a species was not present in a sample, the abundance count is 0.
 
 ```{r Importing data}
-spONLYraw<- read_csv("spONLY031325.csv", col_names = TRUE)
+spONLYraw<- read_csv("spRAW.csv", col_names = TRUE)
 spONLYraw
 ```
 ### Setting Rows and Columns
@@ -116,7 +112,7 @@ SM_data_info
 **Sunken Meadow: Observed Hill Numbers**
 ```{r SM Observed Hill Numbers}
 SM_samples_observed<- SM_out$AsyEst
-write_csv( SM_samples_observed, "SM_spONLY_ObsV3.csv")
+write_csv( SM_samples_observed, "SM_spONLY_Obs.csv")
 SM_samples_observed
 ```
 
@@ -124,7 +120,7 @@ SM_samples_observed
 ```{r SM Rarefaction data }
 #Now lets extract our rarefaction data, except extrapolation
 SM_rare_data<- SM_out$iNextEst$size_base[SM_out$iNextEst$size_base$Method != "Extrapolation", ]
-write_csv(SM_rare_data, "SM_spONLY_rareV3.csv")
+write_csv(SM_rare_data, "SM_spONLY_rare.csv")
 head(SM_rare_data)
 ```
 
@@ -140,14 +136,14 @@ RM_data_info
 ```{r Rushmere Observed Hill Numbers}
 
 RM_samples_observed<- RM_out$AsyEst
-write_csv( RM_samples_observed, "RM_spONLY_ObsV3.csv")
+write_csv( RM_samples_observed, "RM_spONLY_Obs.csv")
 RM_samples_observed
 ```
 
 **Rushmere: Rarefaction Data**
 ```{r Rushmere Rarefaction Data}
 RM_rare_data<- RM_out$iNextEst$size_base[RM_out$iNextEst$size_base$Method != "Extrapolation", ]
-write_csv(RM_rare_data, "RM_spONLY_rareV3.csv")
+write_csv(RM_rare_data, "RM_spONLY_rare.csv")
 head(RM_rare_data)
 
 ```
@@ -163,14 +159,14 @@ MH_data_info
 **Moore House: Observed Hill Numbers**
 ```{r Moore House Observed Hill Numbers}
 MH_samples_observed<- MH_out$AsyEst
-write_csv( MH_samples_observed, "MH_spONLY_ObsV3.csv")
+write_csv( MH_samples_observed, "MH_spONLY_Obs.csv")
 head(MH_samples_observed)
 ```
 
 **Moore House: Rarefaction Data**
 ```{r MH Rarefaction Data}
 MH_rare_data<- MH_out$iNextEst$size_base[MH_out$iNextEst$size_base$Method != "Extrapolation", ]
-write_csv(MH_rare_data, "MH_spONLY_rareV3.csv")
+write_csv(MH_rare_data, "MH_spONLY_rare.csv")
 head(MH_rare_data)
 ```
 
