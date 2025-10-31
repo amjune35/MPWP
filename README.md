@@ -1,5 +1,14 @@
-# MPWP
-Supplementary info for Kresse et al. XXXX
+# Supplementary information
+This repository contains the supplementary info, including sample locations, figures, data, and code for Kresse et al. XXXX. Code and raw data is included for species and genus level analyses.
+
+* Sample locations (lat/long)
+* Figures (supplementary graphs and tables)
+* Data 
+  * Abundance data
+  * DCA coordinates
+* Code 
+  * Hill numbers
+  * PERMANOVA
 
 ### Abstract
 
