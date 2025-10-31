@@ -1,21 +1,17 @@
 ---
-title: "Genera V3 Hill Rare 03_17_25"
-author: "Alicia June"
-date: "2025-03-17"
+title: "Genera Hill Numbers"
+author: "Alicia M. June"
 output: html_document
 ---
 # Introduction
 
-This document is V3 of conducting rarefaction using Hill Numbers. The data is being used is genera ONLY data (03-17-2025). V3 uses 5 samples for each member. It excludes the following samples: 
-
-* AP SM 07MPEA2 (Sunken Meadow)
-* VMNH RM 1 (Rushmere)
-* VMNH MH1 (Moore House)
+This document contains code for calculating the observed Hill numbers (Fig X, X, X) and the diversity curves (Fig X, X, X). The data is being used is genera ONLY data. 5 samples were used for each member.
 
 Goals:
 
-* Create Hill Rarefaction curves for the order q=0 and q=1
-* Extract csvs for rarefaction data, not including rarefaction
+* Calculate Hill numbers qD for q=0 and q=1
+* Create diversity curves for qD for q=0 and q=1
+* Extract csvs for diversity curve data, not including extrapolated data
 
 ```{r Packages}
 library(tidyverse)
