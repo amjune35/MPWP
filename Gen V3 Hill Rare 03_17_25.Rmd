@@ -1,0 +1,181 @@
+---
+title: "Genera V3 Hill Rare 03_17_25"
+author: "Alicia June"
+date: "2025-03-17"
+output: html_document
+---
+# Introduction
+
+This document is V3 of conducting rarefaction using Hill Numbers. The data is being used is genera ONLY data (03-17-2025). V3 uses 5 samples for each member. It excludes the following samples: 
+
+* AP SM 07MPEA2 (Sunken Meadow)
+* VMNH RM 1 (Rushmere)
+* VMNH MH1 (Moore House)
+
+Goals:
+
+* Create Hill Rarefaction curves for the order q=0 and q=1
+* Extract csvs for rarefaction data, not including rarefaction
+
+```{r Packages}
+library(tidyverse)
+library(iNEXT)
+library(dplyr)
+library(ggplot2)
+library(vegan)
+```
+
+## Data Preparation
+Data is imported as a csv. Samples are in columns, genera in rows. There is also a row for sample ID and the member each sample is from. If a genus was not present in a sample, the abundance count is 0.
+
+```{r Importing data}
+genRAW<- read_csv("gen031325.csv", col_names = TRUE)
+genRAW
+```
+
+### Setting Rows and Columns
+```{r Setting Row and Column names}
+
+# made the row name the species name. 
+rownames(genRAW)<- genRAW$`Sample ID`
+genRAW
+
+#Selecting just the numeric data, converting to data frame
+gen_df<- as.data.frame(genRAW[2:141,])
+gen_df
+
+#Setting row names to species names again
+rownames(gen_df)<- gen_df$`Sample ID`
+gen_df
+
+
+#Just the abundance counts
+gen<- (gen_df[,2:16])
+gen
+
+rm(genRAW_df)
+```
+
+
+### Formatting for iNEXT
+iNEXT works best with lists, or of data frames as a list of matrices. I found that out thanks to this video by
+Dr. Óscar M. Chavez, School of Biology, University of Costa Rica:
+
+His video: https://www.youtube.com/watch?v=24PtDhIYg8g
+
+```{r Formatting for iNEXT}
+#Step 1: Making each sample into a matrix and also rounding them up
+
+#SM
+APSM07MPYB3_rd<- ceiling(as.matrix(as.numeric(gen$`AP SM 07MPYB3`)))
+HBSMCG13_rd<- ceiling(as.matrix(as.numeric(gen$`HB SM CG 1:3`)))
+APSM07CWEB1_rd<- ceiling(as.matrix(as.numeric(gen$`AP SM 07CWEB1`)))
+x230723XBCG_rd<- ceiling(as.matrix(as.numeric(gen$`230723XBCG`)))
+HBSMCG31_rd<- ceiling(as.matrix(as.numeric(gen$`HB SM CG 3:1`)))
+
+#RM
+NSCG1RM_rd<- ceiling(as.matrix(as.numeric(gen$`NS CG1 RM`)))
+x71LW75_rd<- ceiling(as.matrix(as.numeric(gen$`71LW75`)))
+NSFW01RM220620_rd<- ceiling(as.matrix(as.numeric(gen$`NSFW-01RM220620`)))
+PBDBRM_rd<- ceiling(as.matrix(as.numeric(gen$`PBDB RM`)))
+ETRM_rd<- ceiling(as.matrix(as.numeric(gen$`ET RM`)))
+
+#MH
+HGMH31MH_rd<- ceiling(as.matrix(as.numeric(gen$`HGMH3-1(MH)`)))
+HGMH32_rd<- ceiling(as.matrix(as.numeric(gen$`HGMH3-2`)))
+RCMB091723_rd<- ceiling(as.matrix(as.numeric(gen$RCMB091723)))
+ETMH_rd<- ceiling(as.matrix(as.numeric(gen$`ET MH`)))
+x70LW1RicesPit_rd<- ceiling(as.matrix(as.numeric(gen$`70LW1 (Rice's Pit)`)))
+
+#Step 2: Making the matrices into lists
+
+all_samp_list<- list(APSM07MPYB3= APSM07MPYB3_rd, HBSMCG13= HBSMCG13_rd, APSM07CWEB1= APSM07CWEB1_rd, x230723XBCG= x230723XBCG_rd, HBSMCG31= HBSMCG31_rd, NSCG1RM= NSCG1RM_rd, x71LW75= x71LW75_rd, NSFW01RM220620= NSFW01RM220620_rd, PBDBRM= PBDBRM_rd, ETRM= ETRM_rd, HGMH31MH= HGMH31MH_rd, HGMH32= HGMH32_rd, RCMB091723= RCMB091723_rd,ETMH=ETMH_rd, x70LW1RicesPit= x70LW1RicesPit_rd)
+
+SM_list<- list(APSM07MPYB3= APSM07MPYB3_rd, HBSMCG13= HBSMCG13_rd, APSM07CWEB1= APSM07CWEB1_rd, x230723XBCG= x230723XBCG_rd,  HBSMCG31= HBSMCG31_rd)
+
+RM_list<- list(NSCG1RM= NSCG1RM_rd, x71LW75= x71LW75_rd, NSFW01RM220620= NSFW01RM220620_rd, PBDBRM= PBDBRM_rd,ETRM= ETRM_rd)
+
+MH_list<- list(HGMH31MH= HGMH31MH_rd, HGMH32= HGMH32_rd, RCMB091723= RCMB091723_rd, ETMH=ETMH_rd, x70LW1RicesPit= x70LW1RicesPit_rd)
+
+```
+
+
+This made it so rarefaction was being calculated as the same intervals that PAST uses. Sage cut off rarefaction at 3000 so I tried to match that. The "size" parameter in the iNEXT object should be "rare_intervals" and "endpoints" and "knots" should both be NULL.
+
+```{r}
+rare_intervals<- seq(from =1, to =3000, by= 10)
+```
+
+
+First, calculate the iNEXT object, which includes all order of Hill numbers, including interpolation and
+extrapolation.
+
+## Sunken Meadow
+```{r SM iNEXT and Data info}
+SM_out<- iNEXT(SM_list, q=c(0,1,2), datatype="abundance", size=rare_intervals, endpoint=NULL, knots=NULL, se=TRUE, conf=0.95, nboot=1000)
+
+SM_data_info<- SM_out$DataInfo
+SM_data_info
+```
+
+**Sunken Meadow: Observed Hill Numbers**
+```{r SM Observed Hill Numbers}
+SM_samples_observed<- SM_out$AsyEst
+write_csv( SM_samples_observed, "SM_gen_ObsV3.csv")
+SM_samples_observed
+```
+
+**Sunken Meadow: Rarefaction Data**
+```{r SM Rarefaction data }
+#Now lets extract our rarefaction data, except extrapolation
+SM_rare_data<- SM_out$iNextEst$size_base[SM_out$iNextEst$size_base$Method != "Extrapolation", ]
+write_csv(SM_rare_data, "SM_gen_rareV3.csv")
+head(SM_rare_data)
+```
+
+## Rushmere
+```{r Rushmere iNEXT and Data info}
+RM_out<- iNEXT(RM_list, q=c(0,1,2), datatype="abundance", size=rare_intervals, endpoint=NULL, knots=NULL, se=TRUE, conf=0.95, nboot=1000)
+
+RM_data_info<- RM_out$DataInfo
+RM_data_info
+```
+
+**Rushmere: Observed Hill Numbers**
+```{r Rushmere Observed Hill Numbers}
+
+RM_samples_observed<- RM_out$AsyEst
+write_csv( RM_samples_observed, "RM_gen_ObsV3.csv")
+RM_samples_observed
+```
+
+**Rushmere: Rarefaction Data**
+```{r Rushmere Rarefaction Data}
+RM_rare_data<- RM_out$iNextEst$size_base[RM_out$iNextEst$size_base$Method != "Extrapolation", ]
+write_csv(RM_rare_data, "RM_gen_rareV3.csv")
+head(RM_rare_data)
+
+```
+
+## Moore House
+```{r MH iNEXT and Data info}
+MH_out<- iNEXT(MH_list, q=c(0,1,2), datatype="abundance", size=rare_intervals, endpoint=NULL, knots=NULL, se=TRUE, conf=0.95, nboot=1000)
+
+MH_data_info<- MH_out$DataInfo
+MH_data_info
+```
+
+**Moore House: Observed Hill Numbers**
+```{r Moore House Observed Hill Numbers}
+MH_samples_observed<- MH_out$AsyEst
+write_csv( MH_samples_observed, "MH_gen_ObsV3.csv")
+head(MH_samples_observed)
+```
+
+**Moore House: Rarefaction Data**
+```{r MH Rarefaction Data}
+MH_rare_data<- MH_out$iNextEst$size_base[MH_out$iNextEst$size_base$Method != "Extrapolation", ]
+write_csv(MH_rare_data, "MH_gen_rareV3.csv")
+head(MH_rare_data)
+```
+
