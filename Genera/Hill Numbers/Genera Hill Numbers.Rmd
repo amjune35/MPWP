@@ -25,7 +25,7 @@ library(vegan)
 Data is imported as a csv. Samples are in columns, genera in rows. There is also a row for sample ID and the member each sample is from. If a genus was not present in a sample, the abundance count is 0.
 
 ```{r Importing data}
-genRAW<- read_csv("gen031325.csv", col_names = TRUE)
+genRAW<- read_csv("genRAW.csv", col_names = TRUE)
 genRAW
 ```
 
