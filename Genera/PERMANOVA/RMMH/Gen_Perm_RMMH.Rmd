@@ -4,8 +4,6 @@ author: "Alicia June"
 output: html_document
 ---
 
-GENERA
-
 # Introduction
 
 This document contains code to conduct PERMANOVA comparing the Rushmere and Moore House members of the Yorktown Formation. The distance matrix is calculated using genera ONLY proportional abundance data. 5 samples were used for each member.
