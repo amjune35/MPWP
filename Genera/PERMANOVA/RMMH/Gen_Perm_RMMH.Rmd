@@ -13,7 +13,7 @@ This document contains code to conduct PERMANOVA comparing the Rushmere and Moor
 The goals of this code are the following:
 
 * Run PERMANOVA on genera ONLY data, compare Rushmere and Moore House Members
-* Calculate Centroids using DCA coordinates
+* Calculate centroids using DCA coordinates
 * Calculate distance matrix with using proportional abundance data to account for sample size
 * 5 trials of distance matrix
 * 10 trials of PERMANOVA, permutations = 10000
@@ -26,7 +26,7 @@ library(vegan)
 ```
 
 ## Data Preparation: Abundance Data
-Abundance data is imported as a csv. Samples are in rows, species in columns. There is also a column for sample ID and the member each sample is from. If a species was not present in a sample, the abundance count is 0.
+Abundance data is imported as a csv. Samples are in rows, genera in columns. There is also a column for sample ID and the member each sample is from. If a genus was not present in a sample, the abundance count is 0.
 ```{r Data prep}
 gen_raw<- read_csv("gen_trans.csv", col_names = TRUE)
 gen_raw
