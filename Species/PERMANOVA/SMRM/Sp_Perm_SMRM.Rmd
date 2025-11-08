@@ -1,6 +1,6 @@
 ---
 title: "Species PERMANOVA SMRM"
-author: "Alicia June"
+author: "Alicia M. June"
 output: html_document
 ---
 
