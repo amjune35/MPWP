@@ -1,25 +1,20 @@
 ---
-title: "V3 spONLY SMRM Perm 03_17_25"
+title: "Species PERMANOVA SMRM"
 author: "Alicia June"
-date: "2025-03-18"
 output: html_document
 ---
 
 # Introduction
 
-This document is V3 of conducting PERMANOVA, comparing the Sunken Meadow and Rushmere Members.The distance matrix is calculated using proportional abundance and the DCA scores were calculated (3-15-2025). The data is being used is species ONLY data (03-13-2025). V3 uses 5 samples for each member. It excludes the following samples: 
-
-* AP SM 07MPEA2 (Sunken Meadow)
-* VMNH RM 1 (Rushmere)
-* VMNH MH1 (Moore House)
+This document contains code to conduct PERMANOVA comparing the Sunken Meadow and Rushmere members of the Yorktown Formation. The distance matrix is calculated using species ONLY proportional abundance data. 5 samples were used for each member.
 
 The goals of this code are the following:
 
 * Run PERMANOVA on species ONLY data, compare Sunken Meadow and Rushmere Members
-* Calculate Centroids using DCA coordinates
+* Calculate centroids using DCA coordinates
 * Calculate distance matrix with using proportional abundance data to account for sample size
 * 5 trials of distance matrix
-# 10 trials of permanova- permutations = 10000
+# 10 trials of PERMANOVA, permutations = 10000
 
 ```{r Packages}
 library(tidyverse)
@@ -32,7 +27,7 @@ library(vegan)
 ## Data Preparation: Abundance Data
 Abundance data is imported as a csv. Samples are in rows, species in columns. There is also a column for sample ID and the member each sample is from. If a species was not present in a sample, the abundance count is 0.
 ```{r Data prep}
-spONLY_raw<- read_csv("spONLY_trans_031325.csv", col_names = TRUE)
+spONLY_raw<- read_csv("sp_trans.csv", col_names = TRUE)
 spONLY_raw
 ```
 
@@ -57,7 +52,7 @@ perm_data_SMRM
 
 ## Data Preparation: DCA Data
 ```{r Import DCA data}
-dcadata<- read_csv("spONLY_dca031525.csv", col_names = TRUE)
+dcadata<- read_csv("sp_dca.csv", col_names = TRUE)
 dcadata
 
 dcadataSMRM<- dcadata[dcadata$Member != "MH",]
@@ -141,7 +136,7 @@ perm_distSMRM_df
 rownames(perm_distSMRM_df)<- spONLY_SMRM$`Sample ID`
 colnames(perm_distSMRM_df)<- spONLY_SMRM$`Sample ID`
 
-write_csv(perm_distSMRM_df, "spONLY_V3_dist_SMRM.csv")
+write_csv(perm_distSMRM_df, "sp_dist_SMRM.csv")
 perm_distSMRM_df
 ```
 
