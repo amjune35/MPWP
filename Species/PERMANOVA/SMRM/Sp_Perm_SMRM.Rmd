@@ -1,16 +1,16 @@
 ---
-title: Genera PERMANOVA SMRM"
+title: "Species PERMANOVA SMRM"
 author: "Alicia M. June"
 output: html_document
 ---
 
 # Introduction
 
-This document contains code to conduct PERMANOVA comparing the Sunken Meadow and Rushmere members of the Yorktown Formation. The distance matrix is calculated using genera ONLY proportional abundance data. 5 samples were used for each member.
+This document contains code to conduct PERMANOVA comparing the Sunken Meadow and Rushmere members of the Yorktown Formation. The distance matrix is calculated using species ONLY proportional abundance data. 5 samples were used for each member.
 
 The goals of this code are the following:
 
-* Run PERMANOVA on genera ONLY data, compare Sunken Meadow and Rushmere Members
+* Run PERMANOVA on species ONLY data, compare Sunken Meadow and Rushmere Members
 * Calculate centroids using DCA coordinates
 * Calculate distance matrix with using proportional abundance data to account for sample size
 * 5 trials of distance matrix
@@ -25,34 +25,34 @@ library(vegan)
 ```
 
 ## Data Preparation: Abundance Data
-Abundance data is imported as a csv. Samples are in rows, genera in columns. There is also a column for sample ID and the member each sample is from. If a genus was not present in a sample, the abundance count is 0.
+Abundance data is imported as a csv. Samples are in rows, species in columns. There is also a column for sample ID and the member each sample is from. If a species was not present in a sample, the abundance count is 0.
 ```{r Data prep}
-gen_raw<- read_csv("gen_trans.csv", col_names = TRUE)
-gen_raw
+spONLY_raw<- read_csv("sp_trans.csv", col_names = TRUE)
+spONLY_raw
 ```
 
 # SM vs RM Samples
 
 ### Just Numeric Data
 ```{r Just nums}
-gen_SMRM<- gen_raw[gen_raw$Member != "MH",]
-gen_SMRM
+spONLY_SMRM<- spONLY_raw[spONLY_raw$Member != "MH",]
+spONLY_SMRM
 
 #just numeric data
-gen_SMRM_num<-gen_SMRM[,3:142] 
-gen_SMRM_num
+spONLY_SMRM_num<-spONLY_SMRM[,3:198] 
+spONLY_SMRM_num
 ```
 
 ### Getting Proportions. 
 ```{r}
 #Converting to proportions
-perm_data_SMRM<- (100*(gen_SMRM_num/rowSums(gen_SMRM_num)))
+perm_data_SMRM<- (100*(spONLY_SMRM_num/rowSums(spONLY_SMRM_num)))
 perm_data_SMRM
 ```
 
 ## Data Preparation: DCA Data
 ```{r Import DCA data}
-dcadata<- read_csv("gen_dca.csv", col_names = TRUE)
+dcadata<- read_csv("sp_dca.csv", col_names = TRUE)
 dcadata
 
 dcadataSMRM<- dcadata[dcadata$Member != "MH",]
@@ -117,6 +117,7 @@ perm_distSMRM<-vegdist(perm_data_SMRM, method = 'bray')
 perm_distSMRM
 
 ```
+
 Creating df of distance matrix. 
 ```{r}
 #Create empty matrix
@@ -132,17 +133,17 @@ perm_distSMRM_df<- as.data.frame(dist_mat_SMRM, row.names = NULL)
 perm_distSMRM_df
 
 #setting col and rownames so we can see what distance we are calculating
-rownames(perm_distSMRM_df)<- gen_SMRM$`Sample ID`
-colnames(perm_distSMRM_df)<- gen_SMRM$`Sample ID`
+rownames(perm_distSMRM_df)<- spONLY_SMRM$`Sample ID`
+colnames(perm_distSMRM_df)<- spONLY_SMRM$`Sample ID`
 
-write_csv(perm_distSMRM_df, "gen_dist_SMRM.csv")
+write_csv(perm_distSMRM_df, "sp_dist_SMRM.csv")
 perm_distSMRM_df
 ```
 
 ## Assumption
 ```{r}
 #Assumptions- I don't think this applies to us, but keeping it in.
-dispersion<-betadisper(perm_distSMRM, group=gen_SMRM$Member,type = "centroid")
+dispersion<-betadisper(perm_distSMRM, group=spONLY_SMRM$Member,type = "centroid")
 
 plot(dispersion)
 
@@ -312,6 +313,4 @@ permustats_results10<- permustats(Perma_result10)
 means_and_se10<- mean_se(permustats_results10$permutations, mult = 1)
 
 ```
-
-
 
