@@ -4,8 +4,8 @@ This repository contains the supplementary info, including sample locations, fig
 * Sample locations (lat/long)
 * Figures (supplementary graphs and tables)
 * Data 
-  * Abundance data
-  * DCA coordinates
+  * Species and genus level abundance data
+  * Species and genus level DCA coordinates
 * Code 
   * Hill numbers
   * PERMANOVA
