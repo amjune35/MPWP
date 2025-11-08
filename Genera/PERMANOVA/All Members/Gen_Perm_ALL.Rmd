@@ -1,24 +1,19 @@
 ---
-title: "V3 Gen Perm All 03_23_25"
+title: "Genera PERMANOVA (all members)"
 author: "Alicia June"
-date: "2025-03-24"
 output: html_document
 ---
 # Introduction
 
-This document is V3 of conducting PERMANOVA .The distance matrix is calculated using proportional abundance and the DCA scores were calculated (3-15-2025). The data is being used is genera ONLY data (03-13-2025). V3 uses 5 samples for each member. It excludes the following samples: 
-
-* AP SM 07MPEA2 (Sunken Meadow)
-* VMNH RM 1 (Rushmere)
-* VMNH MH1 (Moore House)
+This document contains code to conduct PERMANOVA comparing the Sunken Meadow, Rushmere, and Moore House members of the Yorktown Formation. The distance matrix is calculated using genera ONLY proportional abundance data. 5 samples were used for each member.
 
 The goals of this code are the following:
 
 * Run PERMANOVA on genera ONLY data
-* Calculate Centroids using DCA coordinates
+* Calculate centroids using DCA coordinates
 * Calculate distance matrix with using proportional abundance data to account for sample size
 * 5 trials of distance matrix
-# 10 trials of permanova- permutations = 10000
+* 10 trials of permanova- permutations = 10000
 
 ```{r Packages}
 library(tidyverse)
@@ -31,7 +26,7 @@ library(vegan)
 ## Data Preparation: Abundance Data
 Abundance data is imported as a csv. Samples are in rows, genera in columns. There is also a column for sample ID and the member each sample is from. If a genus was not present in a sample, the abundance count is 0.
 ```{r Data prep}
-gen_raw<- read_csv("gen_trans_031325.csv", col_names = TRUE)
+gen_raw<- read_csv("gen_tran.csv", col_names = TRUE)
 gen_raw
 ```
 
@@ -50,7 +45,7 @@ perm_data
 
 ## Data Preparation: DCA Data
 ```{r Import DCA data}
-dcadata<- read_csv("gen_dca_031525.csv", col_names = TRUE)
+dcadata<- read_csv("gen_dca.csv", col_names = TRUE)
 dcadata
 
 #Extracting DCA scores
@@ -132,7 +127,7 @@ perm_dist_df
 rownames(perm_dist_df)<- gen_raw$`Sample ID`
 colnames(perm_dist_df)<- gen_raw$`Sample ID`
 
-write_csv(perm_dist_df, "gen_V3_dist_all.csv")
+write_csv(perm_dist_df, "gen_dist_all.csv")
 perm_dist_df
 ```
 
