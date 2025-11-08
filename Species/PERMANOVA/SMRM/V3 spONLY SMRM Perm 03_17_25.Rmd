@@ -1,0 +1,321 @@
+---
+title: "V3 spONLY SMRM Perm 03_17_25"
+author: "Alicia June"
+date: "2025-03-18"
+output: html_document
+---
+
+# Introduction
+
+This document is V3 of conducting PERMANOVA, comparing the Sunken Meadow and Rushmere Members.The distance matrix is calculated using proportional abundance and the DCA scores were calculated (3-15-2025). The data is being used is species ONLY data (03-13-2025). V3 uses 5 samples for each member. It excludes the following samples: 
+
+* AP SM 07MPEA2 (Sunken Meadow)
+* VMNH RM 1 (Rushmere)
+* VMNH MH1 (Moore House)
+
+The goals of this code are the following:
+
+* Run PERMANOVA on species ONLY data, compare Sunken Meadow and Rushmere Members
+* Calculate Centroids using DCA coordinates
+* Calculate distance matrix with using proportional abundance data to account for sample size
+* 5 trials of distance matrix
+# 10 trials of permanova- permutations = 10000
+
+```{r Packages}
+library(tidyverse)
+library(iNEXT)
+library(dplyr)
+library(ggplot2)
+library(vegan)
+```
+
+## Data Preparation: Abundance Data
+Abundance data is imported as a csv. Samples are in rows, species in columns. There is also a column for sample ID and the member each sample is from. If a species was not present in a sample, the abundance count is 0.
+```{r Data prep}
+spONLY_raw<- read_csv("spONLY_trans_031325.csv", col_names = TRUE)
+spONLY_raw
+```
+
+# SM vs RM Samples
+
+### Just Numeric Data
+```{r Just nums}
+spONLY_SMRM<- spONLY_raw[spONLY_raw$Member != "MH",]
+spONLY_SMRM
+
+#just numeric data
+spONLY_SMRM_num<-spONLY_SMRM[,3:198] 
+spONLY_SMRM_num
+```
+
+### Getting Proportions. 
+```{r}
+#Converting to proportions
+perm_data_SMRM<- (100*(spONLY_SMRM_num/rowSums(spONLY_SMRM_num)))
+perm_data_SMRM
+```
+
+## Data Preparation: DCA Data
+```{r Import DCA data}
+dcadata<- read_csv("spONLY_dca031525.csv", col_names = TRUE)
+dcadata
+
+dcadataSMRM<- dcadata[dcadata$Member != "MH",]
+dcadataSMRM
+
+#Extracting DCA scores
+dca_scoresSMRM<- dcadataSMRM[,3:4]
+dca_scoresSMRM
+
+```
+
+## Plotting
+
+Step 1: Find centroids
+```{r Finding Centroids}
+dcagroup_centroids_SMRM <- data.frame(
+  Member = c("SM", "RM"),
+  Centroid_X = c(mean(dca_scoresSMRM$`Axis 1`[dcadataSMRM$Member == "SM"]),
+                 mean(dca_scoresSMRM$`Axis 1`[dcadataSMRM$Member == "RM"])),
+  Centroid_Y = c(mean(dca_scoresSMRM$`Axis 2`[dcadataSMRM$Member == "SM"]),
+                 mean(dca_scoresSMRM$`Axis 2`[dcadataSMRM$Member == "RM"]))
+)
+
+
+```
+
+Step 2: Create df for ggplot
+```{r Create df for ggplot}
+dcaplot_data_SMRM <-data.frame(
+  Member = dcadataSMRM$Member,
+  DC1 = dca_scoresSMRM$`Axis 1`,
+  DC2 = dca_scoresSMRM$`Axis 2`,
+  xend = c(rep(dcagroup_centroids_SMRM[1,2],5), rep(dcagroup_centroids_SMRM[2,2],5)),
+  yend = c(rep(dcagroup_centroids_SMRM[1,3],5), rep(dcagroup_centroids_SMRM[2,3],5))
+)
+
+dcaplot_data_SMRM
+```
+
+Step 3: Plot the DCA
+
+* Plot samples, coloring based on location
+* Draw the ellipse and the segments
+
+```{r DCA plot}
+ggplot(dcaplot_data_SMRM, aes(DC1,DC2))+
+  geom_point(aes(color = Member), size = 2) +
+  stat_ellipse(geom = "polygon", alpha = 0.04, aes(group = Member),
+               color = "black", fill = "blue")+
+  geom_point(data = dcagroup_centroids_SMRM, aes(x = Centroid_X, y = Centroid_Y),
+             color = "black", size = 2, shape = 7)+
+  geom_segment(data = dcaplot_data_SMRM, aes(x =DC1, y = DC2, 
+                                        xend = xend, yend = yend, color = Member), alpha = 0.5)
+
+```
+
+# Running PERMANOVA
+
+## Distance Matrix
+```{r}
+perm_distSMRM<-vegdist(perm_data_SMRM, method = 'bray')
+perm_distSMRM
+
+```
+
+Creating df of distance matrix. 
+```{r}
+#Create empty matrix
+dist_mat_SMRM= matrix(0, nrow = 10, ncol = 10)
+
+#Setting below diagonal to perm_dost values, and above the diagonal to empty
+dist_mat_SMRM[lower.tri(dist_mat_SMRM)] <- perm_distSMRM
+dist_mat_SMRM[upper.tri(dist_mat_SMRM)]<- ""
+dist_mat_SMRM
+
+#making it a df
+perm_distSMRM_df<- as.data.frame(dist_mat_SMRM, row.names = NULL)
+perm_distSMRM_df
+
+#setting col and rownames so we can see what distance we are calculating
+rownames(perm_distSMRM_df)<- spONLY_SMRM$`Sample ID`
+colnames(perm_distSMRM_df)<- spONLY_SMRM$`Sample ID`
+
+write_csv(perm_distSMRM_df, "spONLY_V3_dist_SMRM.csv")
+perm_distSMRM_df
+```
+
+## Assumption
+```{r}
+#Assumptions- I don't think this applies to us, but keeping it in.
+dispersion<-betadisper(perm_distSMRM, group=spONLY_SMRM$Member,type = "centroid")
+
+plot(dispersion)
+
+anova(dispersion)
+
+```
+
+## PERMANOVA Trials
+
+Repeated trials of PERMANOVA at 10,000 permutations. Will average p-values later. 
+
+Trial 00
+```{r Trial 00}
+Perma_result <- adonis2(perm_distSMRM~as.factor(dcaplot_data_SMRM$Member), data = perm_distSMRM,
+                        permutations = 10000)
+Perma_result
+
+```
+
+Trial 01
+```{r Trial 01}
+Perma_result1 <- adonis2(perm_distSMRM~as.factor(dcaplot_data_SMRM$Member), data = perm_distSMRM,
+                         permutations = 10000)
+Perma_result1
+
+#Extracting perm results
+permustats_results1<- permustats(Perma_result1)
+#permustats_results1
+
+#calculating mean and se
+means_and_se1<- mean_se(permustats_results1$permutations, mult = 1)
+
+```
+
+Trial 02
+```{r Trial 02}
+Perma_result2 <- adonis2(perm_distSMRM~as.factor(dcaplot_data_SMRM$Member), data = perm_distSMRM,
+                         permutations = 10000)
+Perma_result2
+
+#Extracting perm results
+permustats_results2<- permustats(Perma_result2)
+#permustats_results2
+
+#calculating mean and se
+means_and_se2<- mean_se(permustats_results2$permutations, mult = 1)
+
+```
+
+Trial 03
+```{r Trial 03}
+Perma_result3 <- adonis2(perm_distSMRM~as.factor(dcaplot_data_SMRM$Member), data = perm_distSMRM,
+                         permutations = 10000)
+Perma_result3
+
+#Extracting perm results
+permustats_results3<- permustats(Perma_result3)
+#permustats_results3
+
+#calculating mean and se
+means_and_se3<- mean_se(permustats_results3$permutations, mult = 1)
+
+```
+
+Trial 04
+```{r Trial 04}
+Perma_result4 <- adonis2(perm_distSMRM~as.factor(dcaplot_data_SMRM$Member), data = perm_distSMRM,
+                         permutations = 10000)
+Perma_result4
+
+#Extracting perm results
+permustats_results4<- permustats(Perma_result4)
+#permustats_results4
+
+#calculating mean and se
+means_and_se4<- mean_se(permustats_results4$permutations, mult = 1)
+
+```
+
+Trial 05
+```{r Trial 05}
+Perma_result5 <- adonis2(perm_distSMRM~as.factor(dcaplot_data_SMRM$Member), data = perm_distSMRM,
+                         permutations = 10000)
+Perma_result5
+
+#Extracting perm results
+permustats_results5<- permustats(Perma_result5)
+#permustats_results5
+
+#calculating mean and se
+means_and_se5<- mean_se(permustats_results5$permutations, mult = 1)
+
+```
+
+Trial 06
+```{r Trial 06}
+Perma_result6 <- adonis2(perm_distSMRM~as.factor(dcaplot_data_SMRM$Member), data = perm_distSMRM,
+                         permutations = 10000)
+Perma_result6
+
+#Extracting perm results
+permustats_results6<- permustats(Perma_result6)
+#permustats_results6
+
+#calculating mean and se
+means_and_se6<- mean_se(permustats_results6$permutations, mult = 1)
+
+```
+
+
+Trial 07
+```{r Trial 07}
+Perma_result7 <- adonis2(perm_distSMRM~as.factor(dcaplot_data_SMRM$Member), data = perm_distSMRM,
+                         permutations = 10000)
+Perma_result7
+
+#Extracting perm results
+permustats_results7<- permustats(Perma_result7)
+#permustats_results7
+
+#calculating mean and se
+means_and_se7<- mean_se(permustats_results7$permutations, mult = 1)
+
+```
+
+Trial 08
+```{r Trial 08}
+Perma_result8 <- adonis2(perm_distSMRM~as.factor(dcaplot_data_SMRM$Member), data = perm_distSMRM,
+                         permutations = 10000)
+Perma_result8
+
+#Extracting perm results
+permustats_results8<- permustats(Perma_result8)
+#permustats_results8
+
+#calculating mean and se
+means_and_se8<- mean_se(permustats_results8$permutations, mult = 1)
+
+```
+
+Trial 09
+```{r Trial 09}
+Perma_result9 <- adonis2(perm_distSMRM~as.factor(dcaplot_data_SMRM$Member), data = perm_distSMRM,
+                         permutations = 10000)
+Perma_result9
+
+#Extracting perm results
+permustats_results9<- permustats(Perma_result9)
+#permustats_results9
+
+#calculating mean and se
+means_and_se9<- mean_se(permustats_results9$permutations, mult = 1)
+
+```
+
+Trial 10
+```{r Trial 10}
+Perma_result10 <- adonis2(perm_distSMRM~as.factor(dcaplot_data_SMRM$Member), data = perm_distSMRM,
+                         permutations = 10000)
+Perma_result10
+
+#Extracting perm results
+permustats_results10<- permustats(Perma_result10)
+#permustats_results10
+
+#calculating mean and se
+means_and_se10<- mean_se(permustats_results10$permutations, mult = 1)
+
+```
+
