@@ -13,7 +13,7 @@ The goals of this code are the following:
 * Calculate centroids using DCA coordinates
 * Calculate distance matrix with using proportional abundance data to account for sample size
 * 5 trials of distance matrix
-* 10 trials of permanova- permutations = 10000
+* 10 trials of PERMANOVA, permutations = 10000
 
 ```{r Packages}
 library(tidyverse)
