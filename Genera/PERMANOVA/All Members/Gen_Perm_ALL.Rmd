@@ -1,6 +1,6 @@
 ---
 title: "Genera PERMANOVA (all members)"
-author: "Alicia June"
+author: "Alicia M. June"
 output: html_document
 ---
 # Introduction
