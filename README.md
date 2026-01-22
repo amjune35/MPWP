@@ -7,12 +7,11 @@ As sea surface temperatures rise and ocean chemistry changes, it is important to
 <br/>
 ## Table of Contents
 
-### Sample locations
-* Latitude and longitude of sample locations in WGS 1984 (.csv)
-  *  Also includes sample name, geologic member, locality, abbreviations, and locality ID according to Fig. 1
+### Supplementary Figures and Tables
+Supplementary tables in .csv format, figures with captions in .pdf format.
 
-### Supplementary Figures
-Supplementary figures with captions in .pdf format.
+* Table S1: Latitude and longitude of sample locations in WGS 1984 (.csv)
+  *  Also includes sample name, geologic member, locality, abbreviations, and locality ID according to Fig. 1
 
 * Fig S1: Species level raw rarefaction
 * Fig S2: Species level diversity accumulation curve (0D)
