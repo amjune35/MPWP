@@ -7,21 +7,22 @@ As sea surface temperatures rise and ocean chemistry changes, it is important to
 <br/>
 ## Table of Contents
 
-### Sample locations
-* Latitude and longitude of sample locations in WGS 1984 (.csv)
+### Supplementary Figures and Tables
+Supplementary tables and figures with captions in .pdf format. Sample location data is formatted as .csv.<br/>
+<br/>
+* Table S1: Latitude and longitude of sample locations in WGS 1984
   *  Also includes sample name, geologic member, locality, abbreviations, and locality ID according to Fig. 1
-
-### Supplementary Figures
-Supplementary figures with captions in .pdf format.
+* Table S2: ANOVA summary tables for species- and genus-level 1D values, with caption
 
 * Fig S1: Species level raw rarefaction
 * Fig S2: Species level diversity accumulation curve (0D)
 * Fig S3: Species level diversity accumulation curve (1D)
-* Fig S4: Species level DCA
+* Fig S4: Species level DCA<br/>
+<br/>
 
 ### Analyses and code
-All supplementary information related to statistical analyses is organized by taxonomic level. Each taxonomic contains the following files:
-
+All supplementary information related to statistical analyses is organized by taxonomic level. Each taxonomic contains the following files:<br/>
+<br/>
 * Raw species/genus abundance data
 * **Hill Numbers (subfolder)**
    *  Code used to calculate species/genus level Hill numbers and diversity accumulation curves (.Rmd)
