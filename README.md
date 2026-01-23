@@ -1,4 +1,4 @@
-# Supplementary information
+# Supplementary Information
 This repository contains the supplementary info, including sample locations, figures, data, and code for Kresse et al. XXXX. Code and raw data is included for species and genus level analyses.
 
 ## Abstract
@@ -7,7 +7,7 @@ As sea surface temperatures rise and ocean chemistry changes, it is important to
 <br/>
 ## Table of Contents
 
-### Supplementary Figures and Tables
+### Supplementary Tables and Figures
 Supplementary tables and figures with captions in .pdf format. Sample location data is formatted as .csv.<br/>
 <br/>
 * Table S1: Latitude and longitude of sample locations in WGS 1984
@@ -20,7 +20,7 @@ Supplementary tables and figures with captions in .pdf format. Sample location d
 * Fig S4: Species level DCA<br/>
 <br/>
 
-### Analyses and code
+### Analyses and Code
 All supplementary information related to statistical analyses is organized by taxonomic level. Each taxonomic contains the following files:<br/>
 <br/>
 * Raw species/genus abundance data
