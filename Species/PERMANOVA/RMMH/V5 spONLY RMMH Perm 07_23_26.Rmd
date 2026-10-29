@@ -135,7 +135,7 @@ perm_distRMMH_df
 rownames(perm_distRMMH_df)<- spONLY_RMMH$`Sample ID`
 colnames(perm_distRMMH_df)<- spONLY_RMMH$`Sample ID`
 
-write_csv(perm_distRMMH_df, "spONLY_V5_dist_RMMH.csv")
+write_csv(perm_distRMMH_df, "sp_dist_RMMH.csv")
 perm_distRMMH_df
 ```
 
