@@ -26,7 +26,7 @@ library(vegan)
 Data is imported as a csv. Samples are in columns, species in rows. There is also a row for sample ID and the member each sample is from. If a species was not present in a sample, the abundance count is 0.
 
 ```{r Importing data}
-spONLYraw<- read_csv("spRAW.csv", col_names = TRUE)
+spONLYraw<- read_csv("KresseSpeciesRaw.csv", col_names = TRUE)
 spONLYraw
 ```
 ### Setting Rows and Columns
