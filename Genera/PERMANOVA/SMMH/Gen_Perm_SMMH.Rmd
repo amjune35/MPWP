@@ -1,22 +1,19 @@
 ---
-title: "Genera PERMANOVA SMMH"
+title: "Genera PERMANOVA SMMH "
 author: "Alicia M. June"
 output: html_document
 ---
-
-GENERA
-
 # Introduction
 
-This document contains code to conduct PERMANOVA comparing the Sunken Meadow, and Moore House members of the Yorktown Formation. The distance matrix is calculated using genera ONLY proportional abundance data. 5 samples were used for each member.
+This document contains code to conduct PERMANOVA, comparing the Sunken Meadow and Moore House Members. he distance matrix and DCA scores are calculated using the square root of genera ONLY percent abundance data.  5 samples were used for each member. 
 
 The goals of this code are the following:
 
 * Run PERMANOVA on genera ONLY data, compare Sunken Meadow and Moore House Members
-* Calculate centroids using DCA coordinates
-* Calculate distance matrix with using proportional abundance data to account for sample size
+* Calculate Centroids using DCA coordinates
+* Calculate distance matrix by taking the square root of percent abundance to account for sample size
 * 5 trials of distance matrix
-* 10 trials of PERMANOVA- permutations = 10000
+* 10 trials of PERMANOVA, permutations = 10000
 
 
 ```{r Packages}
@@ -32,6 +29,7 @@ Abundance data is imported as a csv. Samples are in rows, genera in columns. The
 gen_raw<- read_csv("gen_trans.csv", col_names = TRUE)
 gen_raw
 ```
+
 # SM vs MH Samples
 
 ### Just Numeric Data
@@ -44,10 +42,10 @@ gen_SMMH_num<-gen_SMMH[,3:142]
 gen_SMMH_num
 ```
 
-### Rounding Data and Getting Proportions. 
+### Getting PERMANOVA data
 ```{r}
-#Converting to proportions
-perm_data_SMMH<- (100*(gen_SMMH_num/rowSums(gen_SMMH_num)))
+#Making separate variable from numerical data for thoroughness
+perm_data_SMMH<- (gen_SMMH_num)
 perm_data_SMMH
 ```
 
@@ -119,7 +117,7 @@ perm_distSMMH
 
 ```
 
-Creating df of distance matrix. EDIT MADE 03/02/25: Incorrect matrix shape. Is 12 x 12.
+Creating df of distance matrix. 
 ```{r}
 #Create empty matrix
 dist_mat_SMMH= matrix(0, nrow = 10, ncol = 10)
@@ -151,6 +149,8 @@ plot(dispersion)
 anova(dispersion)
 
 ```
+
+
 ## PERMANOVA Trials
 
 Repeated trials of PERMANOVA at 10,000 permutations. Will average p-values later. 
@@ -253,7 +253,6 @@ means_and_se6<- mean_se(permustats_results6$permutations, mult = 1)
 
 ```
 
-
 Trial 07
 ```{r Trial 07}
 Perma_result7 <- adonis2(perm_distSMMH~as.factor(dcaplot_data_SMMH$Member), data = perm_distSMMH,
@@ -313,10 +312,6 @@ permustats_results10<- permustats(Perma_result10)
 means_and_se10<- mean_se(permustats_results10$permutations, mult = 1)
 
 ```
-
-
-
-
 
 
 

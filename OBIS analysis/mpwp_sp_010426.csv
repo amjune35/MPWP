@@ -1,0 +1,197 @@
+Sage_No,RL_No,Orig_No,RL_accepted_name,taxon_name
+1,3,3,"Abra subreflexa (Conrad, 1834)",Abra subreflexa
+2,4,5,"Acteocina candei (d'Orbigny, 1841)",Acteocina candei
+3,6,7,"Aligena striata Lea, 1843",Aligena striata
+4,7,401,"Anachis c.f. virgilina (Gardner, 1948)",Anachis c.f. virgilina
+5,9,10,"Anachis parvula (H.C. Lea, 1843)",Anachis parvula
+6,10,11,"Anadara lienosa (Say, 1832)",Anadara lienosa
+7,210,202,"Angulus declivis (Conrad, 1834)",Angulus declivis
+8,211,203,"Angulus dupliniana Dall, 1900",Angulus dupliniana
+9,14,14,Anomia simplex d'Orbigny 1853,Anomia simplex 
+10,15,391,"Architectonica nobilis Röding, 1798",Architectonica nobilis
+11,16,388,"Argopecten comparilis (Tuomey and Holmes, 1855)",Argopecten comparilis
+12,18,17,"Ashtarotha undulata (Say, 1824)",Ashtarotha undulata
+13,19,342,"Astarte arata Conrad, 1840",Astarte arata
+14,21,19,Astarte concentrica Conrad 1834,Astarte concentrica
+15,22,21,"Astarte exaltata Conrad, 1841",Astarte exaltata
+16,24,24,"Astarte symmetrica Conrad, 1834",Astarte symmetrica
+17,25,196,"Astyris communis (Conrad, 1862)",Astyris communis
+18,204,197,"Astyris edensis (Richards, 1947)",Astyris edensis
+19,26,344,"Astyris lunata (Say, 1826)",Astyris lunata
+20,12,380,"Barbatia propatula (Conrad, 1844)",Barbatia propatula
+21,28,356,"Bellaspira virginiana (Conrad, 1862)",Bellaspira virginiana
+22,30,27,"Boreotrophon tetricus (Conrad, 1832)",Boreotrophon tetricus
+23,31,374,"Bornia triangula Dall, 1900",Bornia triangula
+24,32,30,"Bostrycapulus aculeatus (Gmelin, 1791)",Bostrycapulus aculeatus
+25,42,399,"Calliostoma lapidosum (Conrad, 1834)",Calliostoma lapidosum
+26,43,40,"Calliostoma mitchelli (Conrad, 1834)",Calliostoma mitchelli 
+27,46,42,"Calliostoma virginicum (Conrad, 1875)",Calliostoma virginicum 
+28,47,44,"Calyptraea centralis (Conrad, 1841)",Calyptraea centralis 
+29,52,48,"Cancellaria tabulata (Gardner and Aldrich, 1919)",Cancellaria tabulata 
+30,53,50,"Carditamera arata (Conrad, 1832)",Carditamera arata 
+31,54,51,"Carinodrillia smithfieldensis (Olsson, 1916)",Carinodrillia smithfieldensis 
+32,55,52,"Carinorbis lyra (Conrad, 1834)",Carinorbis lyra 
+33,56,53,"Carolinapecten eboreus (Conrad, 1833)",Carolinapecten eboreus 
+34,58,55,"Caryocorbula conradi (Gardner, 1944)",Caryocorbula conradi 
+35,89,78,"Caryocorbula inaequalis (Say, 1824)",Caryocorbula inaequalis
+36,90,79,"Caryocorbula retusa (Gardner, 1944)",Caryocorbula retusa 
+37,60,372,"Caviturritella alumensis (Mansfield, 1930)",Caviturritella alumensis 
+38,61,370,"Caviturritella etiwanensis (Tuomey and Holmes, 1856)",Caviturritella etiwanensis 
+39,62,348,"Caviturritella terstriata (Rogers and Rogers, 1837)",Caviturritella terstriata 
+40,256,251,"Cerastoderma virginianum (Conrad, 1839)",Cerastoderma virginianum
+41,65,59,"Chama congregata Conrad, 1833",Chama congregata 
+42,66,393,"Chama corticosa Conrad, 1833",Chama corticosa
+43,67,60,"Chama emmonsii Nicol, 1953",Chama emmonsii 
+44,216,208,"Chama striata Emmons, 1858",Chama striata 
+45,72,64,"Chesapecten jeffersonius (Say, 1824)",Chesapecten jeffersonius 
+46,73,65,"Chesapecten madisonius (Say, 1824)",Chesapecten madisonius 
+47,74,368,"Chesapecten septenarius (Say, 1824)",Chesapecten septenarius 
+48,76,357,"Chioneryx grus (Holmes, 1858)",Chioneryx grus 
+49,79,69,"Cinctura rhomboidea (Rogers & Rogers, 1839)",Cinctura rhomboidea 
+50,135,126,"Clathrodrillia impressa (Conrad, 1862)",Clathrodrillia impressa 
+51,80,358,"Cochlodesma antiqua (Conrad, 1834)",Cochlodesma antiqua 
+52,83,398,"Compsodrillia eburnea (Conrad, 1862)",Compsodrillia eburnea 
+53,86,75,"Conasprella marylandica (Green, 1830)",Conasprella marylandica
+54,87,77,"Cooperella parilis (Conrad, 1873)",Cooperella parilis 
+55,88,340,"Corbicula densata (Conrad, 1844)",Corbicula densata
+56,59,56,"Corbula cuneata Say, 1824",Corbula cuneata
+57,92,81,"Costaglycymeris subovata (Say, 1824)",Costaglycymeris subovata 
+58,95,85,"Crassinella lunulata (Conrad, 1834)",Crassinella lunulata
+59,96,341,"Crassispira pyrenoides (Conrad, 1834)",Crassispira pyrenoides
+60,98,403,"Crepidula adunca (Sowerby, 1825)",Crepidula adunca 
+61,99,88,"Crepidula convexa Say, 1822",Crepidula convexa 
+62,100,334,"Crepidula cymbaeformis (Conrad, 1844)",Crepidula cymbaeformis
+63,101,89,"Crepidula fornicata (Linnaeus, 1758)",Crepidula fornicata 
+64,103,91,"Crepidula plana Say, 1822",Crepidula plana 
+65,104,92,"Crucibulum grandis (Say, 1824)",Crucibulum grandis 
+66,105,93,"Crucibulum leanum Campbell, 1993",Crucibulum leanum 
+67,109,96,"Crucibulum scutellatum (Wood, 1828)",Crucibulum scutellatum 
+68,110,99,"Ctena speciosa (Rogers and Rogers, 1837)",Ctena speciosa
+69,114,103,"Cyclocardia granulata (Say, 1824)",Cyclocardia granulata 
+70,115,409,"Cymatosyrinx aclinica (Tucker and Wilson, 1933)",Cymatosyrinx aclinica 
+71,116,105,"Cymatosyrinx lunata (H.C. Lea, 1843)",Cymatosyrinx lunata 
+72,121,110,"Dentimargo aureocincta (Stearns, 1872)",Dentimargo aureocincta 
+73,122,111,"Dentimargo eburneola (Conrad, 1834)",Dentimargo eburneola 
+74,125,336,"Diodora oblonga (H.C. Lea, 1843)",Diodora oblonga 
+75,126,113,"Diodora redimicula (Say, 1824)",Diodora redimicula 
+76,129,117,"Diplodonta nucleiformis (Wagner, 1840)",Diplodonta nucleiformis 
+77,130,118,"Diplodonta punctulata (H.C. Lea, 1843)",Diplodonta punctulata 
+78,131,122,"Divalinga quadrisulcata (d'Orbigny, 1846)",Divalinga quadrisulcata 
+79,132,123,"Dosinia acetabula (Conrad, 1832)",Dosinia acetabula 
+80,133,125,"Drillia chuckatuckensis Campbell, 1993",Drillia chuckatuckensis
+81,138,130,"Ecphora quadricostata (Say, 1824)",Ecphora quadricostata
+82,139,131,"Ensis directus (Conrad, 1844)",Ensis directus 
+83,140,132,"Ensis ensiformis (Conrad, 1843)",Ensis ensiformis 
+84,141,397,"Ensis hughesi Campbell, 1993",Ensis hughesi 
+85,142,133,"Ensis schmidti Olsson, 1914",Ensis schmidti 
+86,144,135,"Epitonium aciculum (H.C. Lea, 1843)",Epitonium aciculum 
+87,145,137,"Epitonium cornigerum (H.C. Lea, 1843)",Epitonium cornigerum 
+88,146,396,"Epitonium fractum Dall, 1927",Epitonium fractum 
+89,148,139,"Epitonium microstomum (H.C. Lea, 1843)",Epitonium microstomum
+90,151,143,"Eucrassatella virginica (Gmelin, 1791)",Eucrassatella virginica 
+91,298,345,"Eulima migrans (Conrad, 1846)",Eulima migrans 
+92,155,149,"Eupleura caudata (Say, 1822)",Eupleura caudata 
+93,157,151,"Euspira interna (Say, 1824)",Euspira interna 
+94,158,152,"Euspira sayana (Campbell, 1993)",Euspira sayana 
+95,160,156,"Fusinus exilis Dall, 1890",Fusinus exilis 
+96,161,415,"Gari dalli (Olsson, 1916)",Gari dalli 
+97,163,158,"Glossus fraterna (Say, 1824)",Glossus fraterna 
+98,164,160,"Glycymeris americana (DeFrance, 1826)",Glycymeris americana
+99,168,347,"Hesperisternia filicata (Conrad, 1843)",Hesperisternia filicata 
+100,169,163,"Hiatella arctica (Linnaeus, 1767)",Hiatella arctica 
+101,171,166,"Imaclava halei Campbell, 1993",Imaclava halei 
+102,172,167,"Iselica globosa (H. C. Lea, 1843)",Iselica globosa 
+103,174,411,"Juliamitrella gardnerae (Olsson and Harbison, 1953)",Juliamitrella gardnerae 
+104,167,377,"Leporimetis magnoliana (Dall, 1900)",Leporimetis magnoliana 
+105,180,174,"Lirophora latilirata (Conrad, 1841)",Lirophora latilirata
+106,181,175,"Lirosoma sulcosa (Conrad, 1830)",Lirosoma sulcosa 
+107,182,176,"Lissodrillia simpsoni (Dall, 1887)",Lissodrillia simpsoni 
+108,184,178,"Longchaeus suturalis (H.C. Lea, 1845)",Longchaeus suturalis 
+109,186,180,"Lucinisca cribraria (Say, 1824)",Lucinisca cribraria 
+110,189,395,"Macoma arctata (Conrad, 1849)",Macoma arctata 
+111,188,183,"Macoma virginiana (Conrad, 1866)",Macoma virginiana 
+112,192,387,"Mactrotoma fragilis (Gmelin, 1791)",Mactrotoma fragilis 
+113,193,186,"Margaritaria abrupta (Conrad, 1832)",Margaritaria abrupta 
+114,196,189,"Mariacolpus plebeia (Say, 1824)",Mariacolpus plebeia 
+115,50,46,"Massyla rapella (Johnson, 1904)",Massyla rapella 
+116,199,192,"Melanella laevigata (H. C. Lea, 1843)",Melanella laevigata
+117,200,193,"Mercenaria campechiensis (Gmelin, 1791)",Mercenaria campechiensis 
+118,201,328,"Mercenaria corrugata (Lamarck, 1818)",Mercenaria corrugata 
+119,202,194,"Mercenaria druidi (Ward, 1992)",Mercenaria druidi 
+120,206,199,"Modiolus gigas Dall, 1898",Modiolus gigas 
+121,208,201,"Modiolus pulchellus (Olsson, 1914)",Modiolus pulchellus 
+122,212,204,"Mulinia congesta (Conrad, 1833)",Mulinia congesta 
+123,214,205,"Mulinia lateralis (Say, 1822)",Mulinia lateralis 
+124,217,209,"Nassarina glypta (Bush, 1885)",Nassarina glypta 
+125,218,211,"Nassarius quadrulatus (H.C. Lea, 1843)",Nassarius quadrulatus 
+126,220,405,"Neoterebra dislocata (Say, 1822)",Neoterebra dislocata 
+127,221,212,"Neverita duplicata (Say, 1822)",Neverita duplicata 
+128,222,215,"Noetia incile (Say, 1824)",Noetia incile
+129,223,216,"Noetia limula (Conrad, 1832)",Noetia limula 
+130,225,217,"Nucula proxima Say, 1822",Nucula proxima 
+131,226,219,"Nuculana acuta (Conrad, 1832)",Nuculana acuta 
+132,231,223,"Oliva canaliculata H.C. Lea, 1843",Oliva canaliculata 
+133,233,225,"Olivella carolinae Gardner, 1948",Olivella carolinae 
+134,236,229,"Ostrea compressirostra Say, 1824",Ostrea compressirostra 
+135,84,231,"Ostrea sculpturata (Conrad, 1840)",Ostrea sculpturata 
+136,239,379,"Pandora tuomeyi Gardner and Aldrich, 1919",Pandora tuomeyi 
+137,242,236,"Panopea goldfussii Wagner, 1839",Panopea goldfussii 
+138,244,237,"Panopea reflexa Say, 1824",Panopea reflexa 
+139,247,386,"Parvilucina crenella (Dall, 1901)",Parvilucina crenella 
+140,248,241,"Parvilucina crenulata (Conrad, 1840)",Parvilucina crenulata 
+141,250,244,"Peristernia filicata (Conrad, 1843)",Peristernia filicata
+142,251,245,"Petaloconchus sculpturatus H.C. Lea, 1843",Petaloconchus sculpturatus
+143,252,332,"Pitar sayana (Conrad, 1833)",Pitar sayana 
+144,253,248,"Placopecten clintonius (Say, 1824)",Placopecten clintonius 
+145,77,68,"Placopecten decemnarius (Conrad, 1834)",Placopecten decemnarius 
+146,255,404,"Planicardium taenopleura (Dall, 1900)",Planicardium taenopleura 
+147,257,252,"Pleiorytis centenaria (Conrad, 1833)",Pleiorytis centenaria 
+148,259,254,"Plicatula gibbosa Lamarck, 1801",Plicatula gibbosa 
+149,176,359,"Polygona angulata (Röding, 1798)",Polygona angulata
+150,261,381,"Prunum bellum (Conrad, 1868)",Prunum bellum 
+151,265,265,"Pseudotorinia nupera (Conrad, 1834)",Pseudotorinia nupera 
+152,266,266,"Pterorytis umbrifer (Conrad, 1832)",Pterorytis umbrifer 
+153,267,267,"Ptychosalpinx altilis (Conrad, 1832)",Ptychosalpinx altilis
+154,268,400,"Ptychosalpinx chesapeakensis (Campbell, 1993)",Ptychosalpinx chesapeakensis
+155,270,268,"Ptychosalpinx laqueata (Conrad, 1832)",Ptychosalpinx laqueata 
+156,271,269,"Ptychosalpinx tuomeyi (H.C. Lea, 1843)",Ptychosalpinx tuomeyi
+157,273,272,"Retusa microtrema Dall, 1896",Retusa microtrema 
+158,275,274,"Scalaspira strumosa (Conrad, 1832)",Scalaspira strumosa 
+159,278,385,"Sedilia bella (Conrad, 1862)",Sedilia bella 
+160,279,278,"Seila adamsii (H.C. Lea, 1845)",Seila adamsii 
+161,280,280,"Semele alumensis Dall, 1900",Semele alumensis 
+162,282,282,"Semele subovata (Say, 1824)",Semele subovata 
+163,283,284,"Semelina nuculoides (Conrad, 1841)",Semelina nuculoides 
+164,284,302,"Serratina aequistriata Say, 1824",Serratina aequistriata
+165,285,406,"Sinum chesapeakensis (Campbell, 1993)",Sinum chesapeakensis
+166,287,287,"Solariella olssoni (Campbell, 1993)",Solariella olssoni 
+167,288,288,"Solariella ricei (Campbell, 1993)",Solariella ricei 
+168,290,390,"Sphenia dubia (H.C. Lea, 1845)",Sphenia dubia 
+169,291,290,"Spisula confraga (Conrad, 1833)",Spisula confraga
+170,177,171,"Spisula delumbis (Conrad, 1832)",Spisula delumbis
+171,293,292,"Spisula modicella (Conrad, 1833)",Spisula modicella 
+172,134,373,"Splendrillia arata (Conrad, 1862)",Splendrillia arata 
+173,264,264,"Stewartia anodonta (Say, 1824)",Stewartia anodonta 
+174,78,369,"Stralopecten rogersii (Conrad, 1834)",Stralopecten rogersii 
+175,297,296,"Striarca centenaria (Say, 1824)",Striarca centenaria 
+176,299,366,"Tagelus plebeius ([Lightfoot], 1786)",Tagelus plebeius 
+177,306,304,"Terebra emmonsi Dall, 1896",Terebra emmonsi 
+178,307,412,"Terebra grayi (E.A. Smith, 1877)",Terebra grayi
+179,175,169,"Teredina fistula (Lea, 1843)",Teredina fistula 
+180,310,402,"Thracia magna (Campbell, 1993)",Thracia magna
+181,311,337,"Thylacodes granifera (Say, 1824)",Thylacodes granifera 
+182,312,308,"Tortifusus curvirostra (Conrad, 1864)",Tortifusus curvirostra
+183,313,309,"Trigonostoma perspectiva (Conrad, 1834)",Trigonostoma perspectiva 
+184,316,353,"Turbonilla beta Campbell, 1993",Turbonilla beta 
+185,322,316,"Turritella alticostata Conrad, 1834",Turritella alticostata 
+186,323,317,"Turritella bipertita Conrad, 1844",Turritella bipertita 
+187,325,362,"Turritella fluxionalis Rogers and Rogers, 1837",Turritella fluxionalis 
+188,327,371,"Turritella pilsbryi Gardner, 1928",Turritella pilsbry
+189,328,414,"Turritella virginica Campbell, 1993",Turritella virginica 
+190,329,351,"Urosalpinx gardnerae Campbell, 1993",Urosalpinx gardnerae 
+191,330,320,"Urosalpinx lepidota (Dall, 1890)",Urosalpinx lepidota 
+192,332,322,"Urosalpinx trossula (Conrad, 1832)",Urosalpinx trossula 
+193,334,324,"Vexillum elaboratum (H. C. Lea, 1843)",Vexillum elaboratum 
+194,336,394,"Volutifusus mutabilis (Conrad, 1834)",Volutifusus mutabilis 
+195,337,326,"Volvulella cylindra (Lea, 1843)",Volvulella cylindra 
+196,338,327,"Yoldia laevis (Say, 1824)",Yoldia laevis 

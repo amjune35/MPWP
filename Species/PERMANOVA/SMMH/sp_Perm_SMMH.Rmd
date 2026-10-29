@@ -1,24 +1,23 @@
 ---
-title: "Species PERMANOVA (all members)"
-author: "Alicia June"
+title: "Species PERMANOVA SMMH"
+author: "Alicia M. June"
 output: html_document
 ---
 
 # Introduction
 
-This document contains code to conduct PERMANOVA comparing the Sunken Meadow, Rushmere, and Moore House members of the Yorktown Formation. The distance matrix is calculated using species ONLY proportional abundance data. 5 samples were used for each member.
+This document contains code to conduct PERMANOVA, comparing the Sunken Meadow and Moore House Members. The distance matrix and DCA scores are calculated using the square root of species ONLY percent abundance data.  5 samples were used for each member. 
 
 The goals of this code are the following:
 
-* Run PERMANOVA on species ONLY data
-* Calculate centroids using DCA coordinates
-* Calculate distance matrix with using proportional abundance data to account for sample size
+* Run PERMANOVA on species ONLY data, compare Sunken Meadow and Moore House Members
+* Calculate Centroids using DCA coordinates
+* Calculate distance matrix by taking the square root of percent abundance that has been squ data to account for sample size
 * 5 trials of distance matrix
 * 10 trials of PERMANOVA, permutations = 10000
 
 ```{r Packages}
 library(tidyverse)
-library(iNEXT)
 library(dplyr)
 library(ggplot2)
 library(vegan)
@@ -31,17 +30,23 @@ spONLY_raw<- read_csv("sp_trans.csv", col_names = TRUE)
 spONLY_raw
 ```
 
+# SM vs MH Samples
+
 ### Just Numeric Data
 ```{r Just nums}
-spONLY_num<- spONLY_raw[,3:198]
-spONLY_num
+spONLY_SMMH<- spONLY_raw[spONLY_raw$Member != "RM",]
+spONLY_SMMH
+
+#just numeric data
+spONLY_SMMH_num<-spONLY_SMMH[,3:198] 
+spONLY_SMMH_num
 ```
 
-### Getting Proportions
+### Getting PERMANOVA data. 
 ```{r}
-#Converting to proportions
-perm_data<- (100*(spONLY_num/rowSums(spONLY_num)))
-perm_data
+#Making a separate variable to be thorough
+perm_data_SMMH<- (spONLY_SMMH_num)
+perm_data_SMMH
 ```
 
 ## Data Preparation: DCA Data
@@ -49,38 +54,41 @@ perm_data
 dcadata<- read_csv("sp_dca.csv", col_names = TRUE)
 dcadata
 
+dcadataSMMH<- dcadata[dcadata$Member != "RM",]
+dcadataSMMH
+
 #Extracting DCA scores
-dca_scores<- dcadata[,3:4]
-dca_scores
+dca_scoresSMMH<- dcadataSMMH[,3:4]
+dca_scoresSMMH
+
 ```
 
 ## Plotting
 
 Step 1: Find centroids
 ```{r Finding Centroids}
-dcagroup_centroids <- data.frame(
-  Member = c("SM", "RM", "MH"),
-  Centroid_X = c(mean(dca_scores$`Axis 1`[dcadata$Member == "SM"]),
-                 mean(dca_scores$`Axis 1`[dcadata$Member == "RM"]),
-                 mean(dca_scores$`Axis 1`[dcadata$Member == "MH"])),
-  Centroid_Y = c(mean(dca_scores$`Axis 2`[dcadata$Member == "SM"]),
-                 mean(dca_scores$`Axis 2`[dcadata$Member == "RM"]),
-                 mean(dca_scores$`Axis 2`[dcadata$Member == "MH"]))
+dcagroup_centroids_SMMH <- data.frame(
+  Member = c("SM", "MH"),
+  Centroid_X = c(mean(dca_scoresSMMH$`Axis 1`[dcadataSMMH$Member == "SM"]),
+                 mean(dca_scoresSMMH$`Axis 1`[dcadataSMMH$Member == "MH"])),
+  Centroid_Y = c(mean(dca_scoresSMMH$`Axis 2`[dcadataSMMH$Member == "SM"]),
+                 mean(dca_scoresSMMH$`Axis 2`[dcadataSMMH$Member == "MH"]))
 )
+
 
 ```
 
- Step 2: Create df for ggplot
+Step 2: Create df for ggplot
 ```{r Create df for ggplot}
-dcaplot_data <-data.frame(
-  Member = dcadata$Member,
-  DC1 = dca_scores$`Axis 1`,
-  DC2 = dca_scores$`Axis 2`,
-  xend = c(rep(dcagroup_centroids[1,2],5), rep(dcagroup_centroids[2,2],5), rep(dcagroup_centroids[3,2],5)),
-  yend = c(rep(dcagroup_centroids[1,3],5), rep(dcagroup_centroids[2,3],5), rep(dcagroup_centroids[3,3],5))
+dcaplot_data_SMMH <-data.frame(
+  Member = dcadataSMMH$Member,
+  DC1 = dca_scoresSMMH$`Axis 1`,
+  DC2 = dca_scoresSMMH$`Axis 2`,
+  xend = c(rep(dcagroup_centroids_SMMH[1,2],5), rep(dcagroup_centroids_SMMH[2,2],5)),
+  yend = c(rep(dcagroup_centroids_SMMH[1,3],5), rep(dcagroup_centroids_SMMH[2,3],5))
 )
 
-dcaplot_data
+dcaplot_data_SMMH
 ```
 
 Step 3: Plot the DCA
@@ -89,13 +97,13 @@ Step 3: Plot the DCA
 * Draw the ellipse and the segments
 
 ```{r DCA plot}
-ggplot(dcaplot_data, aes(DC1,DC2))+
+ggplot(dcaplot_data_SMMH, aes(DC1,DC2))+
   geom_point(aes(color = Member), size = 2) +
   stat_ellipse(geom = "polygon", alpha = 0.04, aes(group = Member),
                color = "black", fill = "blue")+
-  geom_point(data = dcagroup_centroids, aes(x = Centroid_X, y = Centroid_Y),
+  geom_point(data = dcagroup_centroids_SMMH, aes(x = Centroid_X, y = Centroid_Y),
              color = "black", size = 2, shape = 7)+
-  geom_segment(data = dcaplot_data, aes(x =DC1, y = DC2, 
+  geom_segment(data = dcaplot_data_SMMH, aes(x =DC1, y = DC2, 
                                         xend = xend, yend = yend, color = Member), alpha = 0.5)
 
 ```
@@ -104,37 +112,37 @@ ggplot(dcaplot_data, aes(DC1,DC2))+
 
 ## Distance Matrix
 ```{r}
-perm_dist<-vegdist(perm_data, method = 'bray')
-perm_dist
+perm_distSMMH<-vegdist(perm_data_SMMH, method = 'bray')
+perm_distSMMH
 
 ```
 
-Creating df of distance matrix
+Creating df of distance matrix. EDIT MADE 03/02/25: Incorrect matrix shape. Is 12 x 12.
 ```{r}
 #Create empty matrix
-dist_mat= matrix(0, nrow = 15, ncol = 15)
+dist_mat_SMMH= matrix(0, nrow = 10, ncol = 10)
 
 #Setting below diagonal to perm_dost values, and above the diagonal to empty
-dist_mat[lower.tri(dist_mat)] <- perm_dist
-dist_mat[upper.tri(dist_mat)]<- ""
-dist_mat
+dist_mat_SMMH[lower.tri(dist_mat_SMMH)] <- perm_distSMMH
+dist_mat_SMMH[upper.tri(dist_mat_SMMH)]<- ""
+dist_mat_SMMH
 
 #making it a df
-perm_dist_df<- as.data.frame(dist_mat, row.names = NULL)
-perm_dist_df
+perm_distSMMH_df<- as.data.frame(dist_mat_SMMH, row.names = NULL)
+perm_distSMMH_df
 
 #setting col and rownames so we can see what distance we are calculating
-rownames(perm_dist_df)<- spONLY_raw$`Sample ID`
-colnames(perm_dist_df)<- spONLY_raw$`Sample ID`
+rownames(perm_distSMMH_df)<- spONLY_SMMH$`Sample ID`
+colnames(perm_distSMMH_df)<- spONLY_SMMH$`Sample ID`
 
-write_csv(perm_dist_df, "sp_dist_all.csv")
-perm_dist_df
+write_csv(perm_distSMMH_df, "sp_dist_SMMH.csv")
+perm_distSMMH_df
 ```
 
 ## Assumption
 ```{r}
 #Assumptions- I don't think this applies to us, but keeping it in.
-dispersion<-betadisper(perm_dist, group=spONLY_raw$Member,type = "centroid")
+dispersion<-betadisper(perm_distSMMH, group=spONLY_SMMH$Member,type = "centroid")
 
 plot(dispersion)
 
@@ -148,19 +156,7 @@ Repeated trials of PERMANOVA at 10,000 permutations. Will average p-values later
 
 Trial 00
 ```{r Trial 00}
-Perma_result <- adonis2(perm_dist~as.factor(dcaplot_data$Member), data = perm_dist,
-                        permutations = 10000)
-Perma_result
-
-```
-
-## PERMANOVA Trials
-
-Repeated trials of PERMANOVA at 10,000 permutations. Will average p-values later. 
-
-Trial 00
-```{r Trial 00}
-Perma_result <- adonis2(perm_dist~as.factor(dcaplot_data$Member), data = perm_dist,
+Perma_result <- adonis2(perm_distSMMH~as.factor(dcaplot_data_SMMH$Member), data = perm_distSMMH,
                         permutations = 10000)
 Perma_result
 
@@ -168,7 +164,7 @@ Perma_result
 
 Trial 01
 ```{r Trial 01}
-Perma_result1 <- adonis2(perm_dist~as.factor(dcaplot_data$Member), data = perm_dist,
+Perma_result1 <- adonis2(perm_distSMMH~as.factor(dcaplot_data_SMMH$Member), data = perm_distSMMH,
                          permutations = 10000)
 Perma_result1
 
@@ -180,9 +176,10 @@ permustats_results1<- permustats(Perma_result1)
 means_and_se1<- mean_se(permustats_results1$permutations, mult = 1)
 
 ```
+
 Trial 02
 ```{r Trial 02}
-Perma_result2 <- adonis2(perm_dist~as.factor(dcaplot_data$Member), data = perm_dist,
+Perma_result2 <- adonis2(perm_distSMMH~as.factor(dcaplot_data_SMMH$Member), data = perm_distSMMH,
                          permutations = 10000)
 Perma_result2
 
@@ -197,7 +194,7 @@ means_and_se2<- mean_se(permustats_results2$permutations, mult = 1)
 
 Trial 03
 ```{r Trial 03}
-Perma_result3 <- adonis2(perm_dist~as.factor(dcaplot_data$Member), data = perm_dist,
+Perma_result3 <- adonis2(perm_distSMMH~as.factor(dcaplot_data_SMMH$Member), data = perm_distSMMH,
                          permutations = 10000)
 Perma_result3
 
@@ -207,10 +204,12 @@ permustats_results3<- permustats(Perma_result3)
 
 #calculating mean and se
 means_and_se3<- mean_se(permustats_results3$permutations, mult = 1)
+
 ```
+
 Trial 04
 ```{r Trial 04}
-Perma_result4 <- adonis2(perm_dist~as.factor(dcaplot_data$Member), data = perm_dist,
+Perma_result4 <- adonis2(perm_distSMMH~as.factor(dcaplot_data_SMMH$Member), data = perm_distSMMH,
                          permutations = 10000)
 Perma_result4
 
@@ -220,11 +219,12 @@ permustats_results4<- permustats(Perma_result4)
 
 #calculating mean and se
 means_and_se4<- mean_se(permustats_results4$permutations, mult = 1)
+
 ```
 
 Trial 05
 ```{r Trial 05}
-Perma_result5 <- adonis2(perm_dist~as.factor(dcaplot_data$Member), data = perm_dist,
+Perma_result5 <- adonis2(perm_distSMMH~as.factor(dcaplot_data_SMMH$Member), data = perm_distSMMH,
                          permutations = 10000)
 Perma_result5
 
@@ -234,11 +234,12 @@ permustats_results5<- permustats(Perma_result5)
 
 #calculating mean and se
 means_and_se5<- mean_se(permustats_results5$permutations, mult = 1)
+
 ```
 
 Trial 06
 ```{r Trial 06}
-Perma_result6 <- adonis2(perm_dist~as.factor(dcaplot_data$Member), data = perm_dist,
+Perma_result6 <- adonis2(perm_distSMMH~as.factor(dcaplot_data_SMMH$Member), data = perm_distSMMH,
                          permutations = 10000)
 Perma_result6
 
@@ -248,11 +249,12 @@ permustats_results6<- permustats(Perma_result6)
 
 #calculating mean and se
 means_and_se6<- mean_se(permustats_results6$permutations, mult = 1)
+
 ```
 
 Trial 07
 ```{r Trial 07}
-Perma_result7 <- adonis2(perm_dist~as.factor(dcaplot_data$Member), data = perm_dist,
+Perma_result7 <- adonis2(perm_distSMMH~as.factor(dcaplot_data_SMMH$Member), data = perm_distSMMH,
                          permutations = 10000)
 Perma_result7
 
@@ -262,11 +264,12 @@ permustats_results7<- permustats(Perma_result7)
 
 #calculating mean and se
 means_and_se7<- mean_se(permustats_results7$permutations, mult = 1)
+
 ```
 
 Trial 08
 ```{r Trial 08}
-Perma_result8 <- adonis2(perm_dist~as.factor(dcaplot_data$Member), data = perm_dist,
+Perma_result8 <- adonis2(perm_distSMMH~as.factor(dcaplot_data_SMMH$Member), data = perm_distSMMH,
                          permutations = 10000)
 Perma_result8
 
@@ -276,11 +279,12 @@ permustats_results8<- permustats(Perma_result8)
 
 #calculating mean and se
 means_and_se8<- mean_se(permustats_results8$permutations, mult = 1)
+
 ```
 
 Trial 09
 ```{r Trial 09}
-Perma_result9 <- adonis2(perm_dist~as.factor(dcaplot_data$Member), data = perm_dist,
+Perma_result9 <- adonis2(perm_distSMMH~as.factor(dcaplot_data_SMMH$Member), data = perm_distSMMH,
                          permutations = 10000)
 Perma_result9
 
@@ -290,11 +294,12 @@ permustats_results9<- permustats(Perma_result9)
 
 #calculating mean and se
 means_and_se9<- mean_se(permustats_results9$permutations, mult = 1)
+
 ```
 
 Trial 10
 ```{r Trial 10}
-Perma_result10 <- adonis2(perm_dist~as.factor(dcaplot_data$Member), data = perm_dist,
+Perma_result10 <- adonis2(perm_distSMMH~as.factor(dcaplot_data_SMMH$Member), data = perm_distSMMH,
                          permutations = 10000)
 Perma_result10
 
@@ -304,9 +309,7 @@ permustats_results10<- permustats(Perma_result10)
 
 #calculating mean and se
 means_and_se10<- mean_se(permustats_results10$permutations, mult = 1)
+
 ```
 
-```{r}
-# extracting prop abundance data
-```
 

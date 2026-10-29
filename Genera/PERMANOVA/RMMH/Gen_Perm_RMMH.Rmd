@@ -1,20 +1,19 @@
 ---
 title: "Genera PERMANOVA RMMH"
-author: "Alicia June"
+author: "Alicia M. June"
 output: html_document
 ---
 
-# Introduction
-
-This document contains code to conduct PERMANOVA comparing the Rushmere and Moore House members of the Yorktown Formation. The distance matrix is calculated using genera ONLY proportional abundance data. 5 samples were used for each member.
+This document contains code to conduct PERMANOVA comparing the Rushmere and Moore House Members. The distance matrix and DCA scores are calculated using the square root of genera ONLY percent abundance data.  5 samples were used for each member. 
 
 The goals of this code are the following:
 
 * Run PERMANOVA on genera ONLY data, compare Rushmere and Moore House Members
-* Calculate centroids using DCA coordinates
-* Calculate distance matrix with using proportional abundance data to account for sample size
+* Calculate Centroids using DCA coordinates
+* Calculate distance matrix by taking the square root of percent abundance to account for sample size
 * 5 trials of distance matrix
 * 10 trials of PERMANOVA, permutations = 10000
+
 
 ```{r Packages}
 library(tidyverse)
@@ -24,7 +23,7 @@ library(vegan)
 ```
 
 ## Data Preparation: Abundance Data
-Abundance data is imported as a csv. Samples are in rows, genera in columns. There is also a column for sample ID and the member each sample is from. If a genus was not present in a sample, the abundance count is 0.
+Abundance data is imported as a csv. Samples are in rows, genus in columns. There is also a column for sample ID and the member each sample is from. If a genus was not present in a sample, the abundance count is 0.
 ```{r Data prep}
 gen_raw<- read_csv("gen_trans.csv", col_names = TRUE)
 gen_raw
@@ -42,14 +41,14 @@ gen_RMMH_num<-gen_RMMH[,3:142]
 gen_RMMH_num
 ```
 
-### Getting Proportions. 
+
+### Getting PERMANOVA data 
 ```{r}
-#Converting to proportions
-RMMH_perm_data<- (100*(gen_RMMH_num/rowSums(gen_RMMH_num)))
+#Making separate variable for thoroughness
+RMMH_perm_data<- (gen_RMMH_num)
 RMMH_perm_data
 
 ```
-
 ## Data Preparation: DCA Data
 ```{r Import DCA data}
 dcadata<- read_csv("gen_dca.csv", col_names = TRUE)
@@ -63,6 +62,7 @@ dca_scoresRMMH<- dcadataRMMH[,3:4]
 dca_scoresRMMH
 
 ```
+
 
 ## Plotting
 
@@ -162,6 +162,7 @@ Perma_result <- adonis2(perm_distRMMH~as.factor(dcaplot_data_RMMH$Member), data 
 Perma_result
 
 ```
+
 Trial 01
 ```{r Trial 01}
 Perma_result1 <- adonis2(perm_distRMMH~as.factor(dcaplot_data_RMMH$Member), data = perm_distRMMH,
@@ -296,6 +297,7 @@ permustats_results9<- permustats(Perma_result9)
 means_and_se9<- mean_se(permustats_results9$permutations, mult = 1)
 
 ```
+
 Trial 10
 ```{r Trial 10}
 Perma_result10 <- adonis2(perm_distRMMH~as.factor(dcaplot_data_RMMH$Member), data = perm_distRMMH,
@@ -310,7 +312,6 @@ permustats_results10<- permustats(Perma_result10)
 means_and_se10<- mean_se(permustats_results10$permutations, mult = 1)
 
 ```
-
 
 
 

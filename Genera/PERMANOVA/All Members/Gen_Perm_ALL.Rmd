@@ -3,17 +3,18 @@ title: "Genera PERMANOVA (all members)"
 author: "Alicia M. June"
 output: html_document
 ---
+
 # Introduction
 
-This document contains code to conduct PERMANOVA comparing the Sunken Meadow, Rushmere, and Moore House members of the Yorktown Formation. The distance matrix is calculated using genera ONLY proportional abundance data. 5 samples were used for each member.
+This document contains code to conduct PERMANOVA comparing the Sunken Meadow, Rushmere, and Moore House members of the Yorktown Formation. The distance matrix and DCA scores are calculated using the square root of genera ONLY percent abundance data. 5 samples were used for each member. 
 
 The goals of this code are the following:
 
 * Run PERMANOVA on genera ONLY data
 * Calculate centroids using DCA coordinates
-* Calculate distance matrix with using proportional abundance data to account for sample size
+* Calculate distance matrix by taking the square root of percent abundance to account for sample size
 * 5 trials of distance matrix
-* 10 trials of PERMANOVA, permutations = 10000
+# 10 trials of PERMANOVA, permutations = 10000
 
 ```{r Packages}
 library(tidyverse)
@@ -26,7 +27,7 @@ library(vegan)
 ## Data Preparation: Abundance Data
 Abundance data is imported as a csv. Samples are in rows, genera in columns. There is also a column for sample ID and the member each sample is from. If a genus was not present in a sample, the abundance count is 0.
 ```{r Data prep}
-gen_raw<- read_csv("gen_tran.csv", col_names = TRUE)
+gen_raw<- read_csv("gen_trans.csv", col_names = TRUE)
 gen_raw
 ```
 
@@ -36,10 +37,10 @@ gen_num<- gen_raw[,3:142]
 gen_num
 ```
 
-### Getting Proportions
+### Getting PERMANOVA data
 ```{r}
-#Converting to proportions
-perm_data<- (100*(gen_num/rowSums(gen_num)))
+#Making separate variable to be thorough
+perm_data<- (gen_num)
 perm_data
 ```
 
@@ -52,6 +53,7 @@ dcadata
 dca_scores<- dcadata[,3:4]
 dca_scores
 ```
+
 
 ## Plotting
 
@@ -68,7 +70,6 @@ dcagroup_centroids <- data.frame(
 )
 
 ```
-
 
  Step 2: Create df for ggplot
 ```{r Create df for ggplot}
@@ -168,6 +169,7 @@ permustats_results1<- permustats(Perma_result1)
 means_and_se1<- mean_se(permustats_results1$permutations, mult = 1)
 
 ```
+
 Trial 02
 ```{r Trial 02}
 Perma_result2 <- adonis2(perm_dist~as.factor(dcaplot_data$Member), data = perm_dist,
@@ -183,7 +185,6 @@ means_and_se2<- mean_se(permustats_results2$permutations, mult = 1)
 
 ```
 
-
 Trial 03
 ```{r Trial 03}
 Perma_result3 <- adonis2(perm_dist~as.factor(dcaplot_data$Member), data = perm_dist,
@@ -197,7 +198,6 @@ permustats_results3<- permustats(Perma_result3)
 #calculating mean and se
 means_and_se3<- mean_se(permustats_results3$permutations, mult = 1)
 ```
-
 
 Trial 04
 ```{r Trial 04}
@@ -296,6 +296,7 @@ permustats_results10<- permustats(Perma_result10)
 #calculating mean and se
 means_and_se10<- mean_se(permustats_results10$permutations, mult = 1)
 ```
+
 
 
 
