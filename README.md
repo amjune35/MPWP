@@ -3,7 +3,7 @@ This repository contains the supplementary info, including sample locations, fig
 
 ## Abstract
 
-As sea surface temperatures rise and ocean chemistry changes, it is important to understand how these shifts will impact marine life. Mollusks are integral parts of ocean ecosystems and compose a large portion of the shellfish industry; therefore changes to molluscan diversity will have widespread economic and ecological consequences. This study examines the effects of global warming and acidification on marine molluscan diversity across the mid-Piacenzian Warm Period (MPWP) in southeastern Virginia. The MPWP was an interval of warming that occurred from 3.264 to 3.025 Ma, during which sea surface temperatures rose approximately 3°C, and atmospheric CO<sub>2</sub> concentrations were higher than pre-industrial levels. These conditions make it uniquely comparable to end-of-the century climate estimates and may provide insight into how modern mollusks will react to future climate change. Fossil molluscan assemblages from the Yorktown Formation that were deposited before, during, and after the MPWP were compiled from museum and field collections. Richness and diversity were quantified using rarefaction and Hill numbers, changes in species composition were measured using percent abundance, and community structure was assessed using Detrended Correspondence Analysis (DCA) and Permutational Analysis of Variance (PERMANOVA). Diversity peaks with warming and does not immediately return to pre-warming levels with subsequent cooling, and community structure differs significantly between each climate interval. Taxa exhibit species-specific responses in terms of abundance, with no uniform pattern across warming and cooling periods. As climate change intensifies, implications for modern molluscan fauna include long-term shifts in both diversity and community structure, which may have implications for ecosystem services.<br/>
+As sea surface temperatures rise and ocean chemistry changes, it is important to understand how these shifts will impact marine organisms. Mollusks play an important role in ocean ecosystems and represent a substantial portion of the shellfish industry; therefore, changes to molluscan diversity will have widespread economic and ecological consequences. In this study, we examine shifts in marine bivalve and gastropod diversity across the mid-Piacenzian Warm Period (MPWP) in southeastern Virginia. The MPWP was an interval of warming that occurred from 3.264 to 3.025 Ma, during which sea surface temperatures rose approximately 3oC, and atmospheric CO2 concentrations were higher than pre-industrial levels. These conditions make it uniquely comparable to end-of-the century climate estimates and may provide insight into how modern mollusks will respond to future climate change. We compiled data on fossil bivalve and gastropod assemblages from time intervals before, during, and after the MPWP from museum and field collections. Richness and diversity were quantified using Hill numbers and community structure was assessed using Detrended Correspondence Analysis (DCA) and Permutational Analysis of Variance (PERMANOVA). Average Hill numbers of the order q = 1 suggest diversity doubles during the MPWP and does not immediately return to previous levels. Similarly, community structure differs significantly between each time interval; species composition and abundance do not return to previous conditions after the MPWP.  As climate change intensifies, implications for modern molluscan fauna include long-term shifts in both diversity and community structure, which may have implications for ecosystem services.<br/>
 <br/>
 ## Table of Contents
 
@@ -21,7 +21,7 @@ Supplementary tables and figures with captions in .pdf format. Sample location d
 <br/>
 
 ### Analyses and Code
-All supplementary information related to statistical analyses is organized by taxonomic level. Each taxonomic contains the following files:<br/>
+All supplementary information related to statistical analyses is organized by taxonomic level, with the exception of the analysis of extant species see (OBIS Environmental Analysis). Each taxonomic contains the following files:. Each taxonomic contains the following files:<br/>
 <br/>
 * Raw species/genus abundance data
 * **Hill Numbers (subfolder)**
@@ -35,5 +35,13 @@ All supplementary information related to statistical analyses is organized by ta
       * PERMANOVA distance matrix (.csv)
    *  DCA coordinates for DC1 and DC2 (.csv)
    *  DCA coordinates for DC1 and DC2, transposed (.csv)
+ <br/>
+
+ ### OBIS Environmental Analysis
+ All supplementary information related to statistical analyses of extant species using OBIS is located in the FOLDER NAME. The folder contains the following files:
+ <br/>
+ * Table of species present in samples (.csv)
+ * Code to prepare, extract, and process environmental data from OBIS (.Rmd)
+ * Resulting environmental summary statistics for all extant taxa (.csv)
 
 
