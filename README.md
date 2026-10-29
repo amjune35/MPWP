@@ -21,7 +21,7 @@ Supplementary tables and figures with captions in .pdf format. Sample location d
 <br/>
 
 ### Analyses and Code
-All supplementary information related to statistical analyses is organized by taxonomic level, with the exception of the analysis of extant species see (OBIS Environmental Analysis). Each taxonomic contains the following files:. Each taxonomic contains the following files:<br/>
+All supplementary information related to statistical analyses is organized by taxonomic level, with the exception of the analysis of extant species see (OBIS Environmental Analysis). Each taxonomic contains the following files:<br/>
 <br/>
 * Raw species/genus abundance data
 * **Hill Numbers (subfolder)**
