@@ -14,8 +14,8 @@ Supplementary tables and figures with captions in .pdf format. Sample location d
 * Table S2: One-way ANOVA results on observed Hill numbers at the species level, for all orders of q
 * Table S3: Results of Kruskal-Wallis and Mann-Whitney U pairwise post-hoc tests on observed Hill numbers at the genus level for all orders of q
 * Table S4: Results of Kruskal-Wallis and Mann-Whitney U pairwise post-hoc tests on observed Hill numbers at the species level for all orders of q
-* Table S5: INSERT
-* Table S6: INSERT
+* Table S5: List of the 35 extant species in our dataset with DCA scores, environmental variables calculated based on OBIS occurrences
+* Table S6: Spearman Rank Correlations between DCA1-3 scores and environmental variables associated with extant taxa in samples (from OBIS)
 * Table S7: PERMANOVA results on scores from the genus level DCA
 
 
