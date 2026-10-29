@@ -1,0 +1,262 @@
+---
+title: "OBIS_supp_copy_102626"
+author: "Alicia June"
+date: "2026-10-27"
+output: html_document
+---
+
+# Introduction
+
+The purpose of this code is to extract environmental data on extant species within our samples using the Ocean Biodiversity Information System (OBIS). Occurrence data will be limited to datasets that meet the following criteria:
+
+**Criteria**
+
+* **Geographic location**: Occurences must be from the mid-Atlantic ridge to US East Coast and from the equator to the Denmark Strait, excluding the Gulf of Mexico (see "watlclean.json", and https://www.arcgis.com/apps/mapviewer/index.html?layers=f3f5b13127704cd1a47d37bc5c86b620 )
+* **Non-fossil occurences**: "basisOfRecord" cannot equal "FossilSpecimen
+* Must contain non-N/A entries for the following columns:
+  * decimalLatitude
+  * decimalLongitude 
+  * bathymetry"
+  * sss (sea surface salinity)
+  * sst (sea surface temperature)
+  
+For more information on OBIS data attributes, see: https://obis.org/data/access/ and https://manual.obis.org/darwin_core.html.
+
+This code is based on the November 22, 2016 tutorial from OBIS: https://obis.org/2016/11/22/sorbycollection/ 
+
+```{r Packages, echo=True, results='hide'}
+#1library(taxizesoap)
+library(robis)
+#library(ggmap)
+library(dplyr)
+library(ncdf4)
+library(raster)
+library(stringr)
+library(readr)
+library(lubridate)
+library(broom)
+library(tidyverse)
+library(plotrix)
+library(jsonlite)
+```
+
+## Importing geometry
+
+Use JSON file of Western Atlantic to filter OBIS records. Drawn in OBIS mapper, then data was downloaded and query geometry was saved as a json file. "Western Atlantic" was defined based on this GIS map (https://www.arcgis.com/home/item.html?id=f3f5b13127704cd1a47d37bc5c86b620#overview) and includes ocean from the mid-Atlantic ridge to US East Coast and from the equator to the Denmark Strait, excluding the Gulf of Mexico. 
+
+```{r Importing geometry}
+geom_json<- fromJSON("watlclean.json")
+obis_clean_w_atl<- geom_json$geometry
+```
+
+## Importing taxonomic data
+
+Importing data that is table of all taxa present in our samples, 
+```{r Import raw data}
+taxa_df_raw<- read_csv("mpwp_sp_010426.csv") # taxa present across all our samples
+taxa_list<- as.list(taxa_df_raw$taxon_name) # list of taxa names
+```
+
+## Pre-processing taxonomic data
+1) Determinging if taxon has OBIS record appending that column to the taxa dataframe
+```{r Determine if OBIS records exist}
+
+obis_yn<- list()
+for (i in seq_len(nrow(taxa_df_raw))){ #go through taxa data
+  taxa<- taxa_list[i] #for specific taxa
+  occ<- occurrence(scientificname=taxa) #pull occurrence
+  if (nrow(occ)==0){ #if length of occurrence record is zero
+    obis_yn[i]= "No" #say no
+  }
+  else{
+    obis_yn[i]= "Yes" #say yes
+  }
+}
+
+```
+
+2) Making column about whether there is a record in OBIS
+```{r Make column about whether taxa is in OBIS}
+taxa_df_raw$has_obis_rec <- c(obis_yn) 
+```
+
+3) Make a dataframe only of taxa that are in OBIS
+```{r Make dataframe of OBIS taxa}
+obis_taxa_df<- taxa_df_raw[taxa_df_raw$has_obis_rec == "Yes", ] #has "Yes" in the 'has_obis_rec' column
+obis_taxa_list<- as.list(obis_taxa_df$taxon_name)
+```
+
+## Setting up a summary dataframe
+Create a dataframe to store the summary statistics calculated from the OBIS records.
+
+```{r Set up summary dataframe}
+summary_df_list_nf<-list() #make a list to store each dataframe for each taxon
+summary_cols_nf<- c("Species",	# These the columns that we want to calculate from OBIS
+                   "n_occurrences",	
+                   #Latitude
+                   "min_latitude",
+                   "average_latitude",
+                   "median_latitude",
+                   "max_latitude",
+                   "latitude_stderr",
+                   "lat_10thpct",
+	                 "lat_90thpct",
+                   
+                   #Longitude
+	                 "max_longitude",
+	                 "min_longitude",
+	                 "long_10thpct",
+	                 "long_90thpct",
+                   
+                   #Depth
+	                 "minimum_depth",	
+	                 "average_depth",
+	                 "median_depth",
+	                 "maximum_depth",
+                   "depth_stderr",
+                   
+                   #Salinity
+	                 "minimum_salinity",
+	                 "average_salinity",
+	                 "median_salinity",
+	                 "maximum_salinity",
+                   "salinity_stderr",
+                   
+                   #SST
+	                 "minimum_sst",
+	                 "average_sst",
+	                 "median_sst",
+	                 "maximum_sst",
+                   "sst_stderr")
+
+summary_df_nf<- data.frame(matrix(nrow = 0, ncol = length(summary_cols_nf))) # empty dataframe
+colnames(summary_df_nf)<- summary_cols_nf #assigning column names
+
+```
+
+## Pulling data from OBIS
+Filtering but with specified geographic area and nonfossil records
+```{r}
+# Iterate through taxa list that we know are in OBIS and in our samples
+for (i in seq_len(nrow(obis_taxa_df))){
+  taxa<- obis_taxa_list[[i]]
+  occ<-occurrence(scientificname=taxa,
+                  hasextensions = "basisOfRecord", #make sure this field is included to check for fossil vs. nonfossil
+                  geometry= obis_w_atl #Western Atlantic
+                     )
+  if (("decimalLatitude" %in% names(occ)) & ("decimalLongitude" %in% names(occ)) & ("bathymetry" %in% names(occ)) & ("sss" %in% names(occ)) & ("sst" %in% names(occ))){# Make sure we have these columns to calculate our environmental stats
+   if (nrow(occ) !=0){ #make sure record isn't empty
+    filt_occ<- occ[(occ$scientificName == taxa) & #making sure fields aren't empty/NA
+                              (occ$basisOfRecord != "FossilSpecimen") & #not fossil
+                              (!is.na(occ$bathymetry)) &
+                              (!is.na(occ$decimalLatitude)) &
+                              (!is.na(occ$decimalLongitude)) &
+                              (!is.na(occ$sss)) &
+                              (!is.na(occ$sst)) & 
+                     (occ$bathymetry >=0), #not on land
+                            ]
+
+    n_occs<- nrow(filt_occ) # calculating number of occurrences
+    
+    if (nrow(filt_occ != 0)){ #if there is still data post-filtering, then calculate the following
+      #latitude stats (min, max, mean, median, standard error, 10th and 90th percentile)
+      min_lat<- min(filt_occ$decimalLatitude)
+      max_lat<- max(filt_occ$decimalLatitude)
+      avg_lat<- mean(filt_occ$decimalLatitude)
+      med_lat<- median(filt_occ$decimalLatitude)
+      lat_se<- std.error(filt_occ$decimalLatitude)
+      
+      lat_10th<- quantile(filt_occ$decimalLatitude, 0.1)
+      lat_90th<- quantile(filt_occ$decimalLatitude, 0.9)
+      
+      #longitude stats (min, max, 10th and 90th percentile)
+      max_long<- max(filt_occ$decimalLongitude)
+      min_long<- min(filt_occ$decimalLongitude)
+      long_10th<- quantile(filt_occ$decimalLongitude, 0.1)
+      long_90th<- quantile(filt_occ$decimalLongitude, 0.9)
+      
+      #depth stats (min, max, median, mean, standard error)
+      min_depth <- min(filt_occ$bathymetry)
+      avg_depth<- mean(filt_occ$bathymetry)
+      med_depth<- median(filt_occ$bathymetry)
+      max_depth<- max(filt_occ$bathymetry)
+      depth_se <- std.error(filt_occ$bathymetry)
+      
+      #salinity stats (min, max, median, mean, standard error)
+      min_salinity<- min(filt_occ$sss)
+      avg_salinity<- mean(filt_occ$sss)
+      med_salinity<- median(filt_occ$sss)
+      max_salinity<- max(filt_occ$sss)
+      salinity_se<- std.error(filt_occ$sss)
+      
+      #sea surface temp stats (min, max, median, mean, standard error)
+      min_sst <- min(filt_occ$sst)
+      avg_sst<- mean(filt_occ$sst)
+      med_sst<- median(filt_occ$sst)
+      max_sst<- max(filt_occ$sst)
+      sst_se<- std.error(filt_occ$sst)
+      
+      # make a summary dataframe for each taxon, with a column for each stat
+      taxa_summary_nf<- data.frame(Species=c(taxa),
+                                   n_occurences= c(n_occs),
+                                   #lat stats
+                                   min_latitude= c(min_lat),
+                                   average_latitude= c(avg_lat),
+                                   median_latitude = c(med_lat),
+                                   max_latitude= c(max_lat),
+                                   latitude_stderr= c(lat_se),
+                                  
+                                   lat_10thpct= c(lat_10th),
+                                   lat_90thpct= c(lat_90th),
+                                   #long stats
+                                   max_longitude =c(max_long),
+                                   min_longitude= c(min_long),
+                                   long_10thpct =c(long_10th),
+                                   long_90thpct= c(long_90th),
+                                   
+                                   #depth stats
+                                   minimum_depth= c(min_depth),
+                                   average_depth= c(avg_depth),
+                                   median_depth= c(med_depth),
+                                   maximum_depth= c(max_depth),
+                                   depth_stderr= c(depth_se),
+                                   
+                                   #salinity stats
+                                   minimum_salinity = c(min_salinity),
+                                   average_salinity= c(avg_salinity),
+                                   median_salinity=c(med_salinity),
+                                   maximum_salinity= c(max_salinity),
+                                   salinity_stderr= c(salinity_se),
+                                   
+                                   #sst stats
+                                   minimum_sst= c(min_sst),
+                                   average_sst= c(avg_sst),
+                                   median_sst= c(med_sst),
+                                   maximum_sst=c(max_sst),
+                                   sst_sdterr= c(sst_se)
+                                                    )
+      summary_df_list_nf[[i]]<- taxa_summary_nf #add that taxon's summary table to the list of summary dataframes
+      print(taxa)  
+      }
+     }
+  }
+}
+    
+```
+
+## Output processing
+
+Consolidating each taxon's environmental data into 1 dataframe
+```{r}
+all_taxa_summary_nf<- do.call(rbind, summary_df_list_nf) #bind all the taxon summary dataframes into one dataframe
+
+all_taxa_summary_nf$taxon_name= all_taxa_summary_nf$Species #Assign the "taxon_name" column
+```
+
+Exporting
+```{r}
+all_tax_skrl_num= merge( all_taxa_summary_nf, taxa_df_raw, by="taxon_name") #merging with out original taxa list to preserve the our number system
+
+write_csv(all_tax_skrl_num, "sp_env09272026.csv") #exporting as .csv
+```
+
