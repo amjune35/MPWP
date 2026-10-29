@@ -10,14 +10,21 @@ As sea surface temperatures rise and ocean chemistry changes, it is important to
 ### Supplementary Tables and Figures
 Supplementary tables and figures with captions in .pdf format. Sample location data is formatted as .csv.<br/>
 <br/>
-* Table S1: Latitude and longitude of sample locations in WGS 1984
-  *  Also includes sample name, geologic member, locality, abbreviations, and locality ID according to Fig. 1
-* Table S2: ANOVA summary tables for species- and genus-level 1D values, with caption
+* Table S1: One-way ANOVA results on observed Hill numbers at the genus level, for all orders of q
+* Table S2: One-way ANOVA results on observed Hill numbers at the species level, for all orders of q
+* Table S3: Results of Kruskal-Wallis and Mann-Whitney U pairwise post-hoc tests on observed Hill numbers at the genus level for all orders of q
+* Table S4: Results of Kruskal-Wallis and Mann-Whitney U pairwise post-hoc tests on observed Hill numbers at the species level for all orders of q
+* Table S5: INSERT
+* Table S6: INSERT
+* Table S7: PERMANOVA results on scores from the genus level DCA
 
-* Fig S1: Species level raw rarefaction
-* Fig S2: Species level diversity accumulation curve (0D)
-* Fig S3: Species level diversity accumulation curve (1D)
-* Fig S4: Species level DCA<br/>
+
+* Fig. S1: Species level sample-size-based diversity accumulation curves for q = 0
+* Fig. S2: Species level sample-size-based diversity accumulation curves for q = 1
+* Fig. S3: Species level sample-size-based diversity accumulation curves for q = 2
+* Fig. S4: Species level average Hill numbers for all orders of q (0D, 1D, 2D)
+* Fig. S5: Genus level DCA data
+* Fig. S6: Genus level average percent abundance in each geologic member
 <br/>
 
 ### Analyses and Code
@@ -37,7 +44,7 @@ All supplementary information related to statistical analyses is organized by ta
    *  DCA coordinates for DC1 and DC2, transposed (.csv)
  <br/>
 
- ### OBIS Environmental Analysis
+ ### OBIS (Ocean Biodiversity Information System) Environmental Analysis
  All supplementary information related to statistical analyses of extant species using OBIS is located in the FOLDER NAME. The folder contains the following files:
  <br/>
  * Table of species present in samples (.csv)
