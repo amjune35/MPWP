@@ -4,13 +4,11 @@ author: "Alicia M. June"
 output: html_document
 ---
 
-GENERA
-
-This document is V5 of conducting PERMANOVA, comparing the Rushmere and Moore House Members. The distance matrix and DCA scores are calculated using the square root of genera ONLY percent abundance data.  5 samples were used for each member. 
+This document contains code to conduct PERMANOVA comparing the Rushmere and Moore House Members. The distance matrix and DCA scores are calculated using the square root of genera ONLY percent abundance data.  5 samples were used for each member. 
 
 The goals of this code are the following:
 
-* Run PERMANOVA on species ONLY data, compare Rushmere and Moore House Members
+* Run PERMANOVA on genera ONLY data, compare Rushmere and Moore House Members
 * Calculate Centroids using DCA coordinates
 * Calculate distance matrix by taking the square root of percent abundance to account for sample size
 * 5 trials of distance matrix
@@ -25,7 +23,7 @@ library(vegan)
 ```
 
 ## Data Preparation: Abundance Data
-Abundance data is imported as a csv. Samples are in rows, species in columns. There is also a column for sample ID and the member each sample is from. If a species was not present in a sample, the abundance count is 0.
+Abundance data is imported as a csv. Samples are in rows, genus in columns. There is also a column for sample ID and the member each sample is from. If a genus was not present in a sample, the abundance count is 0.
 ```{r Data prep}
 gen_raw<- read_csv("gen_trans.csv", col_names = TRUE)
 gen_raw
