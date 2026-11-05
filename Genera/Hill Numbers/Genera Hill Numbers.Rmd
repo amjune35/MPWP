@@ -5,7 +5,7 @@ output: html_document
 ---
 # Introduction
 
-This document contains code for calculating the observed Hill numbers (Fig X, X, X) and the diversity curves (Fig X, X, X). The data is being used is genera ONLY data. 5 samples were used for each member.
+This document contains code for calculating the observed Hill numbers (Fig. 4) and the diversity curves (Fig. 3). The data is being used is genera ONLY data. 5 samples were used for each member.
 
 Goals:
 
