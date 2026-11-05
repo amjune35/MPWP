@@ -26,7 +26,7 @@ library(vegan)
 Data is imported as a csv. Samples are in columns, species in rows. There is also a row for sample ID and the member each sample is from. If a species was not present in a sample, the abundance count is 0.
 
 ```{r Importing data}
-spONLYraw<- read_csv("KresseSpeciesRaw.csv", col_names = TRUE)
+spONLYraw<- read_csv("KresseSpeciesRawR.csv", col_names = TRUE)
 spONLYraw
 ```
 ### Setting Rows and Columns
@@ -112,7 +112,7 @@ SM_data_info
 **Sunken Meadow: Observed Hill Numbers**
 ```{r SM Observed Hill Numbers}
 SM_samples_observed<- SM_out$AsyEst
-write_csv( SM_samples_observed, "SM_sp_Obs.csv")
+write_csv( SM_samples_observed, "Kresse_SM_sp_Obs.csv")
 SM_samples_observed
 ```
 
@@ -120,7 +120,7 @@ SM_samples_observed
 ```{r SM Rarefaction data }
 #Now lets extract our rarefaction data, except extrapolation
 SM_rare_data<- SM_out$iNextEst$size_base[SM_out$iNextEst$size_base$Method != "Extrapolation", ]
-write_csv(SM_rare_data, "SM_sp_rare.csv")
+write_csv(SM_rare_data, "Kresse_SM_sp_rare.csv")
 head(SM_rare_data)
 ```
 
@@ -136,14 +136,14 @@ RM_data_info
 ```{r Rushmere Observed Hill Numbers}
 
 RM_samples_observed<- RM_out$AsyEst
-write_csv( RM_samples_observed, "RM_sp_Obs.csv")
+write_csv( RM_samples_observed, "Kresse_RM_sp_Obs.csv")
 RM_samples_observed
 ```
 
 **Rushmere: Rarefaction Data**
 ```{r Rushmere Rarefaction Data}
 RM_rare_data<- RM_out$iNextEst$size_base[RM_out$iNextEst$size_base$Method != "Extrapolation", ]
-write_csv(RM_rare_data, "RM_sp_rare.csv")
+write_csv(RM_rare_data, "Kresse_RM_sp_rare.csv")
 head(RM_rare_data)
 
 ```
@@ -159,14 +159,14 @@ MH_data_info
 **Moore House: Observed Hill Numbers**
 ```{r Moore House Observed Hill Numbers}
 MH_samples_observed<- MH_out$AsyEst
-write_csv( MH_samples_observed, "MH_sp_Obs.csv")
+write_csv( MH_samples_observed, "Kresse_MH_sp_Obs.csv")
 head(MH_samples_observed)
 ```
 
 **Moore House: Rarefaction Data**
 ```{r MH Rarefaction Data}
 MH_rare_data<- MH_out$iNextEst$size_base[MH_out$iNextEst$size_base$Method != "Extrapolation", ]
-write_csv(MH_rare_data, "MH_sp_rare.csv")
+write_csv(MH_rare_data, "Kresse_MH_sp_rare.csv")
 head(MH_rare_data)
 ```
 
