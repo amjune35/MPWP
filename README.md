@@ -28,7 +28,7 @@ Supplementary tables and figures with captions in .pdf format. Sample location d
 <br/>
 
 ### Analyses and Code
-All supplementary information related to statistical analyses is organized by taxonomic level, with the exception of the analysis of extant species see (DCA OBIS Analysis). Each taxonomic contains the following files:<br/>
+All supplementary information related to statistical analyses is organized by taxonomic level, with the exception of the analysis of extant species see (DCA OBIS Analysis). The folder for each taxonomic contains the following files:<br/>
 <br/>
 * Raw species/genus abundance data
 * **Hill Numbers (subfolder)**
@@ -45,7 +45,7 @@ All supplementary information related to statistical analyses is organized by ta
  <br/>
 
  ### DCA OBIS Analysis
- All supplementary information related to statistical analyses of extant species using OBIS is located in the FOLDER NAME. The folder contains the following files:
+ All supplementary information related to statistical analyses of extant species using OBIS is located in the DCA OBIS Analysis folder. The folder contains the following files:
  <br/>
  * Table of species present in samples (.csv)
  * Code to prepare, extract, and process environmental data from OBIS (.Rmd)
