@@ -1,20 +1,20 @@
 ---
 title: "Species PERMANOVA (all members)"
-author: "Alicia June"
+author: "Alicia M. June"
 output: html_document
 ---
 
 # Introduction
 
-This document contains code to conduct PERMANOVA comparing the Sunken Meadow, Rushmere, and Moore House members of the Yorktown Formation. The distance matrix is calculated using species ONLY proportional abundance data. 5 samples were used for each member.
+This document contains code to conduct PERMANOVA comparing the Sunken Meadow, Rushmere, and Moore House members of the Yorktown Formation. The distance matrix and DCA scores are calculated using the square root of species ONLY percent abundance data.  5 samples were used for each member. 
 
 The goals of this code are the following:
 
 * Run PERMANOVA on species ONLY data
-* Calculate centroids using DCA coordinates
-* Calculate distance matrix with using proportional abundance data to account for sample size
+* Calculate Centroids using DCA coordinates
+* Calculate distance matrix with using percent-square root abundance data to account for sample size
 * 5 trials of distance matrix
-* 10 trials of PERMANOVA, permutations = 10000
+* 10 trials of permanova- permutations = 10000
 
 ```{r Packages}
 library(tidyverse)
@@ -23,11 +23,11 @@ library(dplyr)
 library(ggplot2)
 library(vegan)
 ```
-
 ## Data Preparation: Abundance Data
 Abundance data is imported as a csv. Samples are in rows, species in columns. There is also a column for sample ID and the member each sample is from. If a species was not present in a sample, the abundance count is 0.
+
 ```{r Data prep}
-spONLY_raw<- read_csv("sp_trans.csv", col_names = TRUE)
+spONLY_raw<- read_csv("KresseSpeciesTrans.csv", col_names = TRUE)
 spONLY_raw
 ```
 
@@ -36,17 +36,16 @@ spONLY_raw
 spONLY_num<- spONLY_raw[,3:198]
 spONLY_num
 ```
-
-### Getting Proportions
+### PERMANOVA DATA 
 ```{r}
-#Converting to proportions
-perm_data<- (100*(spONLY_num/rowSums(spONLY_num)))
+#Just want the numeric, but making separate variables for thoroughness
+perm_data<- spONLY_num
 perm_data
 ```
 
 ## Data Preparation: DCA Data
 ```{r Import DCA data}
-dcadata<- read_csv("sp_dca.csv", col_names = TRUE)
+dcadata<- read_csv("KresseSpeciesDCA.csv", col_names = TRUE)
 dcadata
 
 #Extracting DCA scores
@@ -70,7 +69,7 @@ dcagroup_centroids <- data.frame(
 
 ```
 
- Step 2: Create df for ggplot
+Step 2: Create df for ggplot
 ```{r Create df for ggplot}
 dcaplot_data <-data.frame(
   Member = dcadata$Member,
@@ -83,7 +82,7 @@ dcaplot_data <-data.frame(
 dcaplot_data
 ```
 
-Step 3: Plot the DCA
+tep 3: Plot the DCA
 
 * Plot samples, coloring based on location
 * Draw the ellipse and the segments
@@ -99,6 +98,7 @@ ggplot(dcaplot_data, aes(DC1,DC2))+
                                         xend = xend, yend = yend, color = Member), alpha = 0.5)
 
 ```
+
 
 # Running PERMANOVA
 
@@ -127,7 +127,7 @@ perm_dist_df
 rownames(perm_dist_df)<- spONLY_raw$`Sample ID`
 colnames(perm_dist_df)<- spONLY_raw$`Sample ID`
 
-write_csv(perm_dist_df, "sp_dist_all.csv")
+write_csv(perm_dist_df, "Kresse_sp_dist_all.csv")
 perm_dist_df
 ```
 
@@ -142,17 +142,6 @@ anova(dispersion)
 
 ```
 
-## PERMANOVA Trials
-
-Repeated trials of PERMANOVA at 10,000 permutations. Will average p-values later. 
-
-Trial 00
-```{r Trial 00}
-Perma_result <- adonis2(perm_dist~as.factor(dcaplot_data$Member), data = perm_dist,
-                        permutations = 10000)
-Perma_result
-
-```
 
 ## PERMANOVA Trials
 
@@ -180,6 +169,7 @@ permustats_results1<- permustats(Perma_result1)
 means_and_se1<- mean_se(permustats_results1$permutations, mult = 1)
 
 ```
+
 Trial 02
 ```{r Trial 02}
 Perma_result2 <- adonis2(perm_dist~as.factor(dcaplot_data$Member), data = perm_dist,
@@ -208,6 +198,7 @@ permustats_results3<- permustats(Perma_result3)
 #calculating mean and se
 means_and_se3<- mean_se(permustats_results3$permutations, mult = 1)
 ```
+
 Trial 04
 ```{r Trial 04}
 Perma_result4 <- adonis2(perm_dist~as.factor(dcaplot_data$Member), data = perm_dist,
@@ -306,7 +297,4 @@ permustats_results10<- permustats(Perma_result10)
 means_and_se10<- mean_se(permustats_results10$permutations, mult = 1)
 ```
 
-```{r}
-# extracting prop abundance data
-```
 
